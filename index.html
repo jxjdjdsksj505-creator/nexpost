@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexPost - Smart Social Publisher</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#090d18;color:#f5f7ff;font-family:Arial,sans-serif}
+header{padding:20px 7%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #20283a}
+.logo{font-size:25px;font-weight:800;color:#8b7cff}
+.logo span{color:white}
+header small{color:#9ba6bd}
+main{max-width:1100px;margin:35px auto;padding:0 20px}
+h1{font-size:34px;margin-bottom:8px}
+.sub{color:#9ba6bd;margin-bottom:30px}
+.layout{display:grid;grid-template-columns:1.1fr .9fr;gap:22px}
+.card{background:#111827;border:1px solid #263147;border-radius:16px;padding:22px;margin-bottom:20px}
+h2{font-size:18px;margin-top:0}
+.upload{border:2px dashed #495575;border-radius:13px;padding:35px 15px;text-align:center;cursor:pointer;color:#aeb9d0}
+.upload strong{display:block;color:white;font-size:17px;margin:12px}
+input[type=file]{display:none}
+video{width:100%;max-height:280px;border-radius:12px;margin-top:15px;background:#05070c}
+.platforms{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.platform{background:#1b2537;border:1px solid #35415a;border-radius:12px;padding:15px 8px;text-align:center;cursor:pointer}
+.platform input{accent-color:#8b7cff}
+.platform b{display:block;margin-top:8px;font-size:13px}
+.field{margin:15px 0}
+label{display:block;color:#bdc7dc;margin-bottom:8px;font-size:13px}
+input[type=text],textarea{width:100%;background:#0a1020;border:1px solid #35415a;border-radius:9px;padding:12px;color:white;font-size:14px;outline:none}
+textarea{min-height:110px;resize:vertical}
+button{border:0;border-radius:10px;padding:13px 18px;font-weight:bold;cursor:pointer}
+.primary{background:#7867ff;color:white;width:100%;font-size:15px}
+.secondary{background:#25314a;color:white}
+button:hover{opacity:.88}
+.status{font-size:12px;color:#9ba6bd;margin-top:12px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{background:#1b2537;padding:14px;border-radius:10px;text-align:center}
+.stat strong{display:block;font-size:22px;color:#a99cff}
+.stat small{color:#aab5ca}
+.notice{background:#252039;border:1px solid #514477;color:#d8d0ff;padding:13px;border-radius:10px;font-size:12px;line-height:1.6}
+footer{text-align:center;color:#77839b;padding:30px;font-size:12px}
+@media(max-width:700px){.layout{grid-template-columns:1fr}h1{font-size:27px}.platforms{gap:6px}.card{padding:17px}}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">Nex<span>Post</span></div>
+<small>Smart Social Media Publisher</small>
+</header>
+
+<main>
+<h1>Publish everywhere.</h1>
+<p class="sub">One video. Three platforms. One simple workspace.</p>
+
+<div class="layout">
+<section>
+<div class="card">
+<h2>01. Upload your video</h2>
+<label class="upload" for="videoFile">
+<div style="font-size:35px">☁️</div>
+<strong>Choose your video</strong>
+Click to select a video from your device
+<p style="font-size:12px">MP4, MOV and other video formats</p>
+</label>
+<input type="file" id="videoFile" accept="video/*">
+<video id="preview" controls hidden></video>
+<p class="status" id="fileStatus">No video selected</p>
+</div>
+
+<div class="card">
+<h2>02. Select platforms</h2>
+<div class="platforms">
+<label class="platform"><input type="checkbox" checked id="tiktok"><b>♪ TikTok</b></label>
+<label class="platform"><input type="checkbox" checked id="youtube"><b>▶ YouTube</b></label>
+<label class="platform"><input type="checkbox" checked id="instagram"><b>◎ Instagram</b></label>
+</div>
+</div>
+
+<div class="card">
+<h2>03. Content settings</h2>
+<div class="field">
+<label>Video title</label>
+<input type="text" id="title" placeholder="Your video title...">
+</div>
+<div class="field">
+<label>Description</label>
+<textarea id="description" placeholder="Your video description..."></textarea>
+</div>
+<div class="field">
+<label>Hashtags</label>
+<input type="text" id="hashtags" placeholder="#video #content #NexPost">
+</div>
+<button class="secondary" style="width:100%" onclick="generateContent()">✨ Generate sample content</button>
+<p class="status" id="generationStatus">AI content generation will be connected later.</p>
+</div>
+
+<button class="primary" onclick="publish()">Publish to selected platforms</button>
+<p class="status" id="publishStatus">Connect your social accounts to enable publishing.</p>
+</section>
+
+<section>
+<div class="card">
+<h2>Your publishing dashboard</h2>
+<div class="stats">
+<div class="stat"><strong>0</strong><small>Published</small></div>
+<div class="stat"><strong>0</strong><small>Views</small></div>
+<div class="stat"><strong>0</strong><small>Engagements</small></div>
+</div>
+</div>
+
+<div class="card">
+<h2>Platform status</h2>
+<p>♪ TikTok <span style="float:right;color:#ffbd69">Not connected</span></p>
+<hr style="border-color:#263147">
+<p>▶ YouTube <span style="float:right;color:#ffbd69">Not connected</span></p>
+<hr style="border-color:#263147">
+<p>◎ Instagram <span style="float:right;color:#ffbd69">Not connected</span></p>
+</div>
+
+<div class="card">
+<h2>Publishing activity</h2>
+<p style="color:#9ba6bd;font-size:13px">Your published videos and their performance will appear here once the official platform connections are configured.</p>
+</div>
+
+<div class="notice">
+<strong>About this version</strong><br>
+This is the first NexPost interface. Real AI analysis, account connections, automatic publishing and live statistics require backend services and official platform API permissions.
+</div>
+</section>
+</div>
+</main>
+
+<footer>© 2026 NexPost · Smart Social Media Publisher</footer>
+
+<script>
+const fileInput=document.getElementById('videoFile');
+const preview=document.getElementById('preview');
+
+fileInput.addEventListener('change',function(){
+const file=this.files[0];
+if(!file)return;
+preview.src=URL.createObjectURL(file);
+preview.hidden=false;
+document.getElementById('fileStatus').textContent=
+"Selected: "+file.name;
+});
+
+function generateContent(){
+const title=document.getElementById('title');
+const description=document.getElementById('description');
+const hashtags=document.getElementById('hashtags');
+
+if(!fileInput.files[0]){
+document.getElementById('generationStatus').textContent="Please upload a video first.";
+return;
+}
+
+if(!title.value)title.value="My new video";
+if(!description.value)description.value="Watch this video and discover something new!";
+if(!hashtags.value)hashtags.value="#video #trending #NexPost";
+
+document.getElementById('generationStatus').textContent=
+"Sample content created. Real AI generation will be connected later.";
+}
+
+function publish(){
+const selected=[
+document.getElementById('tiktok').checked,
+document.getElementById('youtube').checked,
+document.getElementById('instagram').checked
+].some(Boolean);
+
+if(!fileInput.files[0]){
+document.getElementById('publishStatus').textContent="Please upload a video first.";
+return;
+}
+if(!selected){
+document.getElementById('publishStatus').textContent="Select at least one platform.";
+return;
+}
+document.getElementById('publishStatus').textContent=
+"Publishing is not active yet. Official API connections are required.";
+}
+</script>
+</body>
+</html>
