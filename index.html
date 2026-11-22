@@ -3,186 +3,290 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090d18">
 <title>NexPost - Smart Social Publisher</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#090d18;color:#f5f7ff;font-family:Arial,sans-serif}
-header{padding:20px 7%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #20283a}
-.logo{font-size:25px;font-weight:800;color:#8b7cff}
-.logo span{color:white}
-header small{color:#9ba6bd}
-main{max-width:1100px;margin:35px auto;padding:0 20px}
-h1{font-size:34px;margin-bottom:8px}
-.sub{color:#9ba6bd;margin-bottom:30px}
-.layout{display:grid;grid-template-columns:1.1fr .9fr;gap:22px}
-.card{background:#111827;border:1px solid #263147;border-radius:16px;padding:22px;margin-bottom:20px}
-h2{font-size:18px;margin-top:0}
-.upload{border:2px dashed #495575;border-radius:13px;padding:35px 15px;text-align:center;cursor:pointer;color:#aeb9d0}
-.upload strong{display:block;color:white;font-size:17px;margin:12px}
+header{position:sticky;top:0;z-index:5;background:#0d1426;border-bottom:1px solid #29334b;padding:17px 5%;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.logo{font-size:30px;font-weight:900;letter-spacing:-1px}
+.logo span{color:#947bff}
+.lang{background:#151f35;color:white;border:1px solid #354361;padding:12px;border-radius:12px;font-size:15px;max-width:190px}
+main{max-width:1050px;margin:30px auto;padding:0 18px}
+h1{font-size:32px;margin-bottom:8px}
+.sub{color:#9ba9c3;line-height:1.6}
+.card{background:#111b2e;border:1px solid #293752;border-radius:20px;padding:22px;margin:20px 0}
+h2{font-size:21px;margin:0 0 18px}
+.upload{border:2px dashed #56658b;border-radius:15px;padding:35px 15px;text-align:center;cursor:pointer;color:#bdc9df}
+.upload strong{display:block;color:white;font-size:19px;margin:12px}
 input[type=file]{display:none}
-video{width:100%;max-height:280px;border-radius:12px;margin-top:15px;background:#05070c}
-.platforms{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.platform{background:#1b2537;border:1px solid #35415a;border-radius:12px;padding:15px 8px;text-align:center;cursor:pointer}
-.platform input{accent-color:#8b7cff}
-.platform b{display:block;margin-top:8px;font-size:13px}
-.field{margin:15px 0}
-label{display:block;color:#bdc7dc;margin-bottom:8px;font-size:13px}
-input[type=text],textarea{width:100%;background:#0a1020;border:1px solid #35415a;border-radius:9px;padding:12px;color:white;font-size:14px;outline:none}
+video{width:100%;max-height:350px;margin-top:15px;border-radius:12px}
+.platforms{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.platform{border:1px solid #354361;background:#17243b;color:white;border-radius:15px;padding:18px 8px;cursor:pointer;text-align:center;transition:.2s}
+.platform.active{border:2px solid #9278ff;background:#29244b;box-shadow:0 0 18px #8064ff40;transform:translateY(-3px)}
+.platform .brand{display:block;font-size:29px;font-weight:900;margin-bottom:9px}
+.platform b{font-size:15px}
+.platform .check{display:block;color:#a995ff;font-size:13px;margin-top:8px}
+.tiktok{color:#fff;text-shadow:2px 2px #fe315b,-2px -2px #27e8e0}
+.youtube{color:#ff3333}
+.instagram{color:#f58bc5}
+label{display:block;color:#bdc9df;margin:15px 0 8px}
+input[type=text],textarea{width:100%;padding:14px;background:#091326;border:1px solid #354361;border-radius:12px;color:white;font-size:16px}
 textarea{min-height:110px;resize:vertical}
-button{border:0;border-radius:10px;padding:13px 18px;font-weight:bold;cursor:pointer}
-.primary{background:#7867ff;color:white;width:100%;font-size:15px}
-.secondary{background:#25314a;color:white}
-button:hover{opacity:.88}
-.status{font-size:12px;color:#9ba6bd;margin-top:12px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.stat{background:#1b2537;padding:14px;border-radius:10px;text-align:center}
-.stat strong{display:block;font-size:22px;color:#a99cff}
-.stat small{color:#aab5ca}
-.notice{background:#252039;border:1px solid #514477;color:#d8d0ff;padding:13px;border-radius:10px;font-size:12px;line-height:1.6}
-footer{text-align:center;color:#77839b;padding:30px;font-size:12px}
-@media(max-width:700px){.layout{grid-template-columns:1fr}h1{font-size:27px}.platforms{gap:6px}.card{padding:17px}}
+button{border:0;border-radius:12px;padding:14px 18px;font-size:15px;font-weight:bold;cursor:pointer}
+.primary{background:#7960f5;color:white;width:100%;margin-top:15px}
+.secondary{background:#263653;color:white}
+.connect{background:#1b2942;color:white;width:100%;margin-top:12px;border:1px solid #354361}
+.connect:hover,.secondary:hover{background:#34466b}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.stat{background:#1a2740;border-radius:14px;padding:18px 8px;text-align:center}
+.stat strong{display:block;color:#a995ff;font-size:27px;margin-bottom:8px}
+.stat span{font-size:13px;color:#aab6ce}
+.status{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 0;border-bottom:1px solid #354361}
+.status:last-child{border:0}
+.notconnected{color:#ffbd78;font-size:13px}
+.connected{color:#62dba0;font-size:13px}
+.platform-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.platform-stats div{background:#1a2740;padding:13px 5px;border-radius:12px;text-align:center}
+.platform-stats strong{display:block;color:#b29cff;font-size:21px}
+.platform-stats small{color:#aab6ce}
+.notice{background:#241f3e;border:1px solid #504274;border-radius:15px;padding:16px;color:#d5d0ef;line-height:1.7;font-size:14px}
+.modal-bg{display:none;position:fixed;inset:0;background:#000b;z-index:10;align-items:center;justify-content:center;padding:20px}
+.modal{max-width:430px;width:100%;background:#141f34;border:1px solid #455477;border-radius:20px;padding:25px}
+.modal h2{font-size:22px}
+.modal p{color:#bac6dc;line-height:1.7}
+.modal button{width:100%;margin-top:10px}
+footer{text-align:center;padding:35px;color:#77849d}
+@media(max-width:550px){
+ header{padding:14px}
+ .logo{font-size:25px}
+ .lang{max-width:155px;font-size:13px}
+ main{padding:0 13px}
+ .card{padding:17px}
+ h1{font-size:27px}
+ .platforms{gap:7px}
+ .platform{padding:15px 3px}
+ .platform b{font-size:13px}
+ .stats{gap:7px}
+ .stat{padding:14px 3px}
+}
 </style>
 </head>
 <body>
+
 <header>
-<div class="logo">Nex<span>Post</span></div>
-<small>Smart Social Media Publisher</small>
+ <div class="logo"><span>Nex</span>Post</div>
+ <select class="lang" id="language" aria-label="Language">
+  <option value="en">🇬🇧 English</option>
+  <option value="ar">🇸🇦 العربية</option>
+  <option value="fr">🇫🇷 Français</option>
+  <option value="de">🇩🇪 Deutsch</option>
+ </select>
 </header>
 
 <main>
-<h1>Publish everywhere.</h1>
-<p class="sub">One video. Three platforms. One simple workspace.</p>
+ <h1 data-i="title">Publish everywhere.</h1>
+ <p class="sub" data-i="subtitle">Three platforms. One simple workspace.</p>
 
-<div class="layout">
-<section>
-<div class="card">
-<h2>01. Upload your video</h2>
-<label class="upload" for="videoFile">
-<div style="font-size:35px">☁️</div>
-<strong>Choose your video</strong>
-Click to select a video from your device
-<p style="font-size:12px">MP4, MOV and other video formats</p>
-</label>
-<input type="file" id="videoFile" accept="video/*">
-<video id="preview" controls hidden></video>
-<p class="status" id="fileStatus">No video selected</p>
-</div>
+ <section class="card">
+  <h2 data-i="uploadTitle">01. Upload your video</h2>
+  <label class="upload" for="videoFile">
+   <div style="font-size:35px">🎬</div>
+   <strong data-i="choose">Choose your video</strong>
+   <span data-i="tap">Tap to select a video from your device</span>
+  </label>
+  <input type="file" id="videoFile" accept="video/*">
+  <p class="sub" id="fileStatus" data-i="noVideo">No video selected</p>
+  <video id="preview" controls hidden></video>
+ </section>
 
-<div class="card">
-<h2>02. Select platforms</h2>
-<div class="platforms">
-<label class="platform"><input type="checkbox" checked id="tiktok"><b>♪ TikTok</b></label>
-<label class="platform"><input type="checkbox" checked id="youtube"><b>▶ YouTube</b></label>
-<label class="platform"><input type="checkbox" checked id="instagram"><b>◎ Instagram</b></label>
-</div>
-</div>
+ <section class="card">
+  <h2 data-i="platformTitle">02. Select platforms</h2>
+  <div class="platforms">
+   <button class="platform active" data-platform="tiktok" onclick="togglePlatform(this)">
+    <span class="brand tiktok">♪</span><b>TikTok</b><span class="check">✓ Selected</span>
+   </button>
+   <button class="platform active" data-platform="youtube" onclick="togglePlatform(this)">
+    <span class="brand youtube">▶</span><b>YouTube</b><span class="check">✓ Selected</span>
+   </button>
+   <button class="platform active" data-platform="instagram" onclick="togglePlatform(this)">
+    <span class="brand instagram">◎</span><b>Instagram</b><span class="check">✓ Selected</span>
+   </button>
+  </div>
+ </section>
 
-<div class="card">
-<h2>03. Content settings</h2>
-<div class="field">
-<label>Video title</label>
-<input type="text" id="title" placeholder="Your video title...">
-</div>
-<div class="field">
-<label>Description</label>
-<textarea id="description" placeholder="Your video description..."></textarea>
-</div>
-<div class="field">
-<label>Hashtags</label>
-<input type="text" id="hashtags" placeholder="#video #content #NexPost">
-</div>
-<button class="secondary" style="width:100%" onclick="generateContent()">✨ Generate sample content</button>
-<p class="status" id="generationStatus">AI content generation will be connected later.</p>
-</div>
+ <section class="card">
+  <h2 data-i="contentTitle">03. Content settings</h2>
+  <label data-i="videoTitle">Video title</label>
+  <input type="text" id="videoTitle" placeholder="Your video title...">
+  <label data-i="description">Description</label>
+  <textarea id="description" placeholder="Your video description..."></textarea>
+  <label data-i="hashtags">Hashtags</label>
+  <input type="text" id="hashtags" placeholder="#video #viral #fyp">
+  <button class="secondary" style="width:100%;margin-top:15px" onclick="sampleContent()" data-i="generate">✨ Generate sample content</button>
+  <p class="sub" id="generateStatus"></p>
+ </section>
 
-<button class="primary" onclick="publish()">Publish to selected platforms</button>
-<p class="status" id="publishStatus">Connect your social accounts to enable publishing.</p>
-</section>
+ <section class="card">
+  <h2 data-i="accountsTitle">04. Connect your accounts</h2>
+  <div class="status">
+   <b>♪ TikTok</b><span class="notconnected" id="tiktokStatus">Not connected</span>
+  </div>
+  <button class="connect" onclick="connect('TikTok')" data-i="connect">Connect TikTok</button>
+  <div class="status">
+   <b style="color:#ff5555">▶ YouTube</b><span class="notconnected" id="youtubeStatus">Not connected</span>
+  </div>
+  <button class="connect" onclick="connect('YouTube')" data-i="connect">Connect YouTube</button>
+  <div class="status">
+   <b style="color:#f58bc5">◎ Instagram</b><span class="notconnected" id="instagramStatus">Not connected</span>
+  </div>
+  <button class="connect" onclick="connect('Instagram')" data-i="connect">Connect Instagram</button>
+ </section>
 
-<section>
-<div class="card">
-<h2>Your publishing dashboard</h2>
-<div class="stats">
-<div class="stat"><strong>0</strong><small>Published</small></div>
-<div class="stat"><strong>0</strong><small>Views</small></div>
-<div class="stat"><strong>0</strong><small>Engagements</small></div>
-</div>
-</div>
+ <section class="card">
+  <h2 data-i="dashboard">05. Publishing dashboard</h2>
+  <div class="stats">
+   <div class="stat"><strong id="published">0</strong><span data-i="published">Published</span></div>
+   <div class="stat"><strong id="views">0</strong><span data-i="views">Views</span></div>
+   <div class="stat"><strong id="engagements">0</strong><span data-i="engagements">Engagements</span></div>
+  </div>
+ </section>
 
-<div class="card">
-<h2>Platform status</h2>
-<p>♪ TikTok <span style="float:right;color:#ffbd69">Not connected</span></p>
-<hr style="border-color:#263147">
-<p>▶ YouTube <span style="float:right;color:#ffbd69">Not connected</span></p>
-<hr style="border-color:#263147">
-<p>◎ Instagram <span style="float:right;color:#ffbd69">Not connected</span></p>
-</div>
+ <section class="card">
+  <h2 data-i="individual">Statistics by platform</h2>
+  <div class="platform-stats">
+   <div><strong>♪</strong><small>TikTok</small><strong>0</strong><small data-i="views">Views</small></div>
+   <div><strong style="color:#ff5555">▶</strong><small>YouTube</small><strong>0</strong><small data-i="views">Views</small></div>
+   <div><strong style="color:#f58bc5">◎</strong><small>Instagram</small><strong>0</strong><small data-i="views">Views</small></div>
+  </div>
+  <p class="sub" data-i="statsNote">Real statistics will appear after official API connections.</p>
+ </section>
 
-<div class="card">
-<h2>Publishing activity</h2>
-<p style="color:#9ba6bd;font-size:13px">Your published videos and their performance will appear here once the official platform connections are configured.</p>
-</div>
+ <button class="primary" onclick="publish()" data-i="publish">Publish to selected platforms</button>
+ <p class="sub" id="publishStatus" style="text-align:center"></p>
 
-<div class="notice">
-<strong>About this version</strong><br>
-This is the first NexPost interface. Real AI analysis, account connections, automatic publishing and live statistics require backend services and official platform API permissions.
-</div>
-</section>
-</div>
+ <section class="notice">
+  <b data-i="important">Important</b><br>
+  <span data-i="notice">This is the interface. Secure account authorization, real publishing, AI analysis and live statistics require backend configuration and official platform permissions.</span>
+ </section>
 </main>
 
 <footer>© 2026 NexPost · Smart Social Media Publisher</footer>
 
-<script>
-const fileInput=document.getElementById('videoFile');
-const preview=document.getElementById('preview');
+<div class="modal-bg" id="modal">
+ <div class="modal">
+  <h2 id="modalTitle">Secure account connection</h2>
+  <p id="modalText">Official authorization must be configured before connecting this account.</p>
+  <button class="primary" onclick="closeModal()" data-i="understood">Understood</button>
+  <button class="secondary" onclick="closeModal()" data-i="close">Close</button>
+ </div>
+</div>
 
-fileInput.addEventListener('change',function(){
-const file=this.files[0];
-if(!file)return;
-preview.src=URL.createObjectURL(file);
-preview.hidden=false;
-document.getElementById('fileStatus').textContent=
-"Selected: "+file.name;
+<script>
+const translations={
+en:{
+title:"Publish everywhere.",subtitle:"Three platforms. One simple workspace.",
+uploadTitle:"01. Upload your video",choose:"Choose your video",tap:"Tap to select a video from your device",noVideo:"No video selected",
+platformTitle:"02. Select platforms",contentTitle:"03. Content settings",videoTitle:"Video title",description:"Description",hashtags:"Hashtags",generate:"✨ Generate sample content",
+accountsTitle:"04. Connect your accounts",connect:"Connect",dashboard:"05. Publishing dashboard",published:"Published",views:"Views",engagements:"Engagements",individual:"Statistics by platform",statsNote:"Real statistics will appear after official API connections.",
+publish:"Publish to selected platforms",important:"Important",notice:"This is the interface. Secure account authorization, real publishing, AI analysis and live statistics require backend configuration and official platform permissions.",
+understood:"Understood",close:"Close",selected:"✓ Selected",notSelected:"Select",noPlatforms:"Please select at least one platform.",notReady:"Publishing is not active yet. Official API connections are required.",generated:"Sample content created. Real AI generation will be connected later."
+},
+ar:{
+title:"انشر في كل مكان.",subtitle:"ثلاث منصات. مساحة عمل واحدة.",
+uploadTitle:"01. ارفع الفيديو",choose:"اختر الفيديو",tap:"اضغط لاختيار فيديو من جهازك",noVideo:"لم يتم اختيار فيديو",
+platformTitle:"02. اختر المنصات",contentTitle:"03. إعدادات المحتوى",videoTitle:"عنوان الفيديو",description:"الوصف",hashtags:"الهاشتاغات",generate:"✨ إنشاء محتوى تجريبي",
+accountsTitle:"04. اربط حساباتك",connect:"ربط الحساب",dashboard:"05. لوحة النشر",published:"المنشورات",views:"المشاهدات",engagements:"التفاعلات",individual:"إحصائيات كل منصة",statsNote:"ستظهر الإحصائيات الحقيقية بعد ربط واجهات المنصات الرسمية.",
+publish:"النشر على المنصات المختارة",important:"مهم",notice:"هذه واجهة الموقع. تسجيل الدخول الآمن والنشر الحقيقي وتحليل الذكاء الاصطناعي والإحصائيات المباشرة تحتاج إلى إعداد الخادم والحصول على صلاحيات المنصات الرسمية.",
+understood:"فهمت",close:"إغلاق",selected:"✓ تم الاختيار",notSelected:"اختيار",noPlatforms:"يرجى اختيار منصة واحدة على الأقل.",notReady:"النشر غير مفعل بعد. يجب إعداد الاتصالات الرسمية.",generated:"تم إنشاء محتوى تجريبي. سيتم ربط الذكاء الاصطناعي الحقيقي لاحقاً."
+},
+fr:{
+title:"Publiez partout.",subtitle:"Trois plateformes. Un seul espace de travail.",
+uploadTitle:"01. Importer votre vidéo",choose:"Choisir votre vidéo",tap:"Appuyez pour choisir une vidéo",noVideo:"Aucune vidéo sélectionnée",
+platformTitle:"02. Choisir les plateformes",contentTitle:"03. Paramètres du contenu",videoTitle:"Titre de la vidéo",description:"Description",hashtags:"Hashtags",generate:"✨ Générer un exemple",
+accountsTitle:"04. Connecter vos comptes",connect:"Connecter",dashboard:"05. Tableau de publication",published:"Publiées",views:"Vues",engagements:"Interactions",individual:"Statistiques par plateforme",statsNote:"Les statistiques réelles apparaîtront après la connexion des API officielles.",
+publish:"Publier sur les plateformes sélectionnées",important:"Important",notice:"Ceci est l'interface. L'autorisation sécurisée, la publication réelle, l'analyse IA et les statistiques nécessitent un serveur et les autorisations officielles.",
+understood:"Compris",close:"Fermer",selected:"✓ Sélectionné",notSelected:"Choisir",noPlatforms:"Veuillez choisir au moins une plateforme.",notReady:"La publication n'est pas encore activée. Les API officielles sont nécessaires.",generated:"Exemple créé. La véritable IA sera connectée plus tard."
+},
+de:{
+title:"Überall veröffentlichen.",subtitle:"Drei Plattformen. Ein Arbeitsbereich.",
+uploadTitle:"01. Video hochladen",choose:"Video auswählen",tap:"Tippen Sie, um ein Video auszuwählen",noVideo:"Kein Video ausgewählt",
+platformTitle:"02. Plattformen auswählen",contentTitle:"03. Inhaltseinstellungen",videoTitle:"Videotitel",description:"Beschreibung",hashtags:"Hashtags",generate:"✨ Beispielinhalt erstellen",
+accountsTitle:"04. Konten verbinden",connect:"Verbinden",dashboard:"05. Veröffentlichungsübersicht",published:"Veröffentlicht",views:"Aufrufe",engagements:"Interaktionen",individual:"Statistiken je Plattform",statsNote:"Echte Statistiken erscheinen nach der Verbindung der offiziellen APIs.",
+publish:"Auf ausgewählten Plattformen veröffentlichen",important:"Wichtig",notice:"Dies ist die Benutzeroberfläche. Sichere Anmeldung, Veröffentlichung, KI-Analyse und Live-Statistiken benötigen einen Server und offizielle Berechtigungen.",
+understood:"Verstanden",close:"Schließen",selected:"✓ Ausgewählt",notSelected:"Auswählen",noPlatforms:"Bitte wählen Sie mindestens eine Plattform.",notReady:"Veröffentlichung ist noch nicht aktiv. Offizielle APIs sind erforderlich.",generated:"Beispielinhalt erstellt. Die echte KI wird später verbunden."
+}
+};
+
+let currentLang="en";
+
+function setLanguage(lang){
+ currentLang=lang;
+ const t=translations[lang];
+ document.documentElement.lang=lang;
+ document.documentElement.dir=lang==="ar"?"rtl":"ltr";
+ document.querySelectorAll("[data-i]").forEach(el=>{
+  const key=el.dataset.i;
+  if(t[key])el.textContent=t[key];
+ });
+ document.getElementById("videoTitle").placeholder=
+  lang==="ar"?"عنوان الفيديو...":"Your video title...";
+ document.getElementById("description").placeholder=
+  lang==="ar"?"اكتب وصف الفيديو...":"Your video description...";
+ document.querySelectorAll(".platform").forEach(updatePlatform);
+}
+document.getElementById("language").addEventListener("change",e=>setLanguage(e.target.value));
+
+function updatePlatform(button){
+ const t=translations[currentLang];
+ const check=button.querySelector(".check");
+ check.textContent=button.classList.contains("active")?t.selected:t.notSelected;
+}
+function togglePlatform(button){
+ button.classList.toggle("active");
+ updatePlatform(button);
+}
+function connect(name){
+ document.getElementById("modalTitle").textContent=
+  currentLang==="ar"?"ربط حساب "+name:"Connect "+name;
+ document.getElementById("modalText").textContent=
+  currentLang==="ar"?
+  "تسجيل الدخول الرسمي لهذا الحساب يحتاج إلى إعداد OAuth والخادم الآمن وصلاحيات المنصة. لا تكتب كلمة مرورك هنا.":
+  "Official sign-in requires OAuth configuration, a secure backend and platform permissions. Never enter your password here.";
+ document.getElementById("modal").style.display="flex";
+}
+function closeModal(){document.getElementById("modal").style.display="none"}
+
+document.getElementById("videoFile").addEventListener("change",function(){
+ const file=this.files[0];
+ if(!file)return;
+ const url=URL.createObjectURL(file);
+ const video=document.getElementById("preview");
+ video.src=url;video.hidden=false;
+ document.getElementById("fileStatus").textContent=file.name;
 });
 
-function generateContent(){
-const title=document.getElementById('title');
-const description=document.getElementById('description');
-const hashtags=document.getElementById('hashtags');
-
-if(!fileInput.files[0]){
-document.getElementById('generationStatus').textContent="Please upload a video first.";
-return;
-}
-
-if(!title.value)title.value="My new video";
-if(!description.value)description.value="Watch this video and discover something new!";
-if(!hashtags.value)hashtags.value="#video #trending #NexPost";
-
-document.getElementById('generationStatus').textContent=
-"Sample content created. Real AI generation will be connected later.";
+function sampleContent(){
+ const ar=currentLang==="ar";
+ document.getElementById("videoTitle").value=ar?"شاهد هذا الفيديو المميز!":"Watch this amazing video!";
+ document.getElementById("description").value=ar?
+ "لا تفوّت مشاهدة هذا الفيديو وشاركه مع أصدقائك!":
+ "Don't miss this video. Share it with your friends!";
+ document.getElementById("hashtags").value="#viral #video #fyp #shorts";
+ document.getElementById("generateStatus").textContent=translations[currentLang].generated;
 }
 
 function publish(){
-const selected=[
-document.getElementById('tiktok').checked,
-document.getElementById('youtube').checked,
-document.getElementById('instagram').checked
-].some(Boolean);
+ const selected=[...document.querySelectorAll(".platform.active")];
+ const status=document.getElementById("publishStatus");
+ if(!selected.length){
+  status.textContent=translations[currentLang].noPlatforms;return;
+ }
+ status.textContent=translations[currentLang].notReady;
+}
 
-if(!fileInput.files[0]){
-document.getElementById('publishStatus').textContent="Please upload a video first.";
-return;
-}
-if(!selected){
-document.getElementById('publishStatus').textContent="Select at least one platform.";
-return;
-}
-document.getElementById('publishStatus').textContent=
-"Publishing is not active yet. Official API connections are required.";
-}
+setLanguage("en");
 </script>
 </body>
 </html>
