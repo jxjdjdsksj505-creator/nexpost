@@ -1,8 +1,8 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0b1020">
 <title>NexPost</title>
 <style>
@@ -47,10 +47,10 @@ textarea.field{min-height:92px;resize:vertical}
 .connectrow{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
 .notice{margin-top:12px;padding:11px;border:1px solid #66502c;border-radius:11px;background:#2b2419;color:#f2d49b;font-size:12px;line-height:1.6}
 .hidden{display:none!important}
-.modalback{position:fixed;inset:0;background:#0009;display:grid;place-items:center;padding:16px;z-index:5}
+.modalback{position:fixed;inset:0;background:#0009;display:grid;place-items:center;padding:16px;z-index:1000}
 .modal{width:min(420px,100%);background:var(--p);border:1px solid var(--line);border-radius:18px;padding:20px}
 .modal .field{margin:6px 0 10px}
-.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#eef4ff;color:#111b2c;padding:11px 16px;border-radius:11px;z-index:9;max-width:90%}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#eef4ff;color:#111b2c;padding:11px 16px;border-radius:11px;z-index:1100;max-width:90%}
 footer{text-align:center;color:var(--m);font-size:11px;padding:24px}
 @media(max-width:820px){.grid{grid-template-columns:1fr}.hero{align-items:flex-start;flex-direction:column}.dashgrid{grid-template-columns:1fr}}
 @media(max-width:520px){.wrap{padding:13px}.platforms{grid-template-columns:1fr}.top{align-items:flex-start}.controls{flex-wrap:wrap;justify-content:flex-end}.card{padding:14px}}
@@ -68,7 +68,7 @@ footer{text-align:center;color:var(--m);font-size:11px;padding:24px}
 <option value="en">🇬🇧 English</option>
 <option value="de">🇩🇪 Deutsch</option>
 </select>
-<button class="btn" id="authBtn" data-t="emailLogin">تسجيل الدخول</button>
+<button type="button" class="btn" id="authBtn">تسجيل الدخول</button>
 </div>
 </header>
 
@@ -78,7 +78,7 @@ footer{text-align:center;color:var(--m);font-size:11px;padding:24px}
 <h1 data-t="hero">انشر فيديوك من مكان واحد</h1>
 <p data-t="intro">ارفع فيديو واحداً، جهّز محتوى مناسباً لكل منصة، وتابع أداء كل حساب من لوحة واحدة.</p>
 </div>
-<span class="status" id="authStatus" data-t="signedOut">غير مسجل الدخول</span>
+<span class="status" id="authStatus">غير مسجل الدخول</span>
 </section>
 
 <div class="grid">
@@ -101,9 +101,9 @@ footer{text-align:center;color:var(--m);font-size:11px;padding:24px}
 <section class="card">
 <h3 data-t="platforms">٢. اختر منصات النشر</h3>
 <div class="platforms">
-<button class="btn platform active" data-p="youtube"><span class="picon">▶</span><span><b>YouTube</b><small>Video</small></span></button>
-<button class="btn platform active" data-p="instagram"><span class="picon">◎</span><span><b>Instagram</b><small>Reels</small></span></button>
-<button class="btn platform active" data-p="tiktok"><span class="picon">♪</span><span><b>TikTok</b><small>Short video</small></span></button>
+<button type="button" class="btn platform active" data-p="youtube"><span class="picon">▶</span><span><b>YouTube</b><small>Video</small></span></button>
+<button type="button" class="btn platform active" data-p="instagram"><span class="picon">◎</span><span><b>Instagram</b><small>Reels</small></span></button>
+<button type="button" class="btn platform active" data-p="tiktok"><span class="picon">♪</span><span><b>TikTok</b><small>Short video</small></span></button>
 </div>
 </section>
 
@@ -111,28 +111,26 @@ footer{text-align:center;color:var(--m);font-size:11px;padding:24px}
 <h3 data-t="content">٣. جهّز محتوى الفيديو</h3>
 <p class="hint" data-t="aiHint">اكتب وصفك أو أنشئ مسودة أولية. التحليل التلقائي بالذكاء الاصطناعي يحتاج إلى خدمة AI مرتبطة بالخادم.</p>
 <div class="fields">
-<input class="field" id="title" placeholder="عنوان الفيديو" data-ph="titlePH">
-<textarea class="field" id="desc" placeholder="اكتب وصف الفيديو" data-ph="descPH"></textarea>
-<input class="field" id="tags" placeholder="#هاشتاغات" data-ph="tagsPH">
+<input class="field" id="title" placeholder="عنوان الفيديو">
+<textarea class="field" id="desc" placeholder="اكتب وصف الفيديو"></textarea>
+<input class="field" id="tags" placeholder="#هاشتاغات">
 </div>
 <div class="actions">
-<button class="btn" id="draft" data-t="draft">إنشاء مسودة أولية</button>
-<button class="btn primary" id="prepare" data-t="prepare">تحضير المنشورات</button>
+<button type="button" class="btn" id="draft" data-t="draft">إنشاء مسودة أولية</button>
+<button type="button" class="btn primary" id="prepare" data-t="prepare">تحضير المنشورات</button>
 </div>
 <div class="notice" data-t="publishNotice">هذه النسخة تجهّز الواجهة والمسودات فقط. النشر الحقيقي يتطلب موافقات API وربطاً آمناً لكل منصة.</div>
 </section>
-
 </main>
 
 <aside class="stack">
-
 <section class="card">
 <h3 data-t="account">حساب NexPost</h3>
 <p class="hint" data-t="accountHint">سجّل الدخول لحفظ حسابك. لا تدخل كلمات مرور منصات التواصل هنا.</p>
 <div class="actions">
-<button class="btn primary" id="google" data-t="google">المتابعة باستخدام Google</button>
-<button class="btn" id="email" data-t="emailLogin">الدخول بالبريد</button>
-<button class="btn hidden" id="logout" data-t="logout">تسجيل الخروج</button>
+<button type="button" class="btn primary" id="google">المتابعة باستخدام Google</button>
+<button type="button" class="btn" id="email" onclick="document.getElementById('modal').classList.remove('hidden')">الدخول بالبريد</button>
+<button type="button" class="btn hidden" id="logout">تسجيل الخروج</button>
 </div>
 <div class="notice" data-t="keyNotice">ضع Supabase Publishable Key في إعدادات الملف لتفعيل تسجيل الدخول. لا تضع Secret Key هنا.</div>
 </section>
@@ -154,44 +152,36 @@ footer{text-align:center;color:var(--m);font-size:11px;padding:24px}
 </div>
 <p class="hint" data-t="metricsHint">تظهر الأرقام بعد ربط الحسابات واسترجاع بيانات التحليلات.</p>
 </section>
-
 </aside>
 </div>
 
 <section class="card" style="margin-top:16px">
 <h3 data-t="dashboards">لوحة منفصلة لكل منصة</h3>
 <div class="dashgrid">
-
 <div class="dash">
-<b>▶ YouTube</b>
-<p class="hint" data-t="waiting">بانتظار الربط</p>
+<b>▶ YouTube</b><p class="hint" data-t="waiting">بانتظار الربط</p>
 <div class="stats">
 <div class="stat"><span data-t="views">المشاهدات</span><strong>—</strong></div>
 <div class="stat"><span data-t="likes">الإعجابات</span><strong>—</strong></div>
 <div class="stat"><span data-t="comments">التعليقات</span><strong>—</strong></div>
 </div>
 </div>
-
 <div class="dash">
-<b>◎ Instagram</b>
-<p class="hint" data-t="waiting">بانتظار الربط</p>
+<b>◎ Instagram</b><p class="hint" data-t="waiting">بانتظار الربط</p>
 <div class="stats">
 <div class="stat"><span data-t="views">المشاهدات</span><strong>—</strong></div>
 <div class="stat"><span data-t="likes">الإعجابات</span><strong>—</strong></div>
 <div class="stat"><span data-t="comments">التعليقات</span><strong>—</strong></div>
 </div>
 </div>
-
 <div class="dash">
-<b>♪ TikTok</b>
-<p class="hint" data-t="waiting">بانتظار الربط</p>
+<b>♪ TikTok</b><p class="hint" data-t="waiting">بانتظار الربط</p>
 <div class="stats">
 <div class="stat"><span data-t="views">المشاهدات</span><strong>—</strong></div>
 <div class="stat"><span data-t="likes">الإعجابات</span><strong>—</strong></div>
 <div class="stat"><span data-t="comments">التعليقات</span><strong>—</strong></div>
 </div>
 </div>
-
 </div>
 </section>
 
@@ -204,9 +194,9 @@ footer{text-align:center;color:var(--m);font-size:11px;padding:24px}
 <input class="field" id="mail" type="email" placeholder="Email">
 <input class="field" id="pass" type="password" placeholder="Password">
 <div class="actions">
-<button class="btn primary" id="signin" data-t="signin">دخول</button>
-<button class="btn" id="signup" data-t="signup">إنشاء حساب</button>
-<button class="btn" id="close" data-t="cancel">إلغاء</button>
+<button type="button" class="btn primary" id="signin">دخول</button>
+<button type="button" class="btn" id="signup">إنشاء حساب</button>
+<button type="button" class="btn" id="close">إلغاء</button>
 </div>
 </div>
 </div>
@@ -216,197 +206,99 @@ footer{text-align:center;color:var(--m);font-size:11px;padding:24px}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const SUPABASE_URL="https://ubjxouxdngrgldbjltkd.supabase.co";
-
-// ضع Publishable Key العام هنا فقط.
-// لا تضع Secret Key أو service_role أو Google Client Secret.
 const SUPABASE_PUBLISHABLE_KEY="PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE";
 
 const dict={
 ar:{
-hero:"انشر فيديوك من مكان واحد",
-intro:"ارفع فيديو واحداً، جهّز محتوى مناسباً لكل منصة، وتابع أداء كل حساب من لوحة واحدة.",
-signedOut:"غير مسجل الدخول",
-upload:"١. ارفع الفيديو",
-choose:"اختر فيديو من جهازك",
-formats:"MP4 أو MOV · ملف واحد",
-platforms:"٢. اختر منصات النشر",
-content:"٣. جهّز محتوى الفيديو",
+hero:"انشر فيديوك من مكان واحد",intro:"ارفع فيديو واحداً، جهّز محتوى مناسباً لكل منصة، وتابع أداء كل حساب من لوحة واحدة.",
+upload:"١. ارفع الفيديو",choose:"اختر فيديو من جهازك",formats:"MP4 أو MOV · ملف واحد",
+platforms:"٢. اختر منصات النشر",content:"٣. جهّز محتوى الفيديو",
 aiHint:"اكتب وصفك أو أنشئ مسودة أولية. التحليل التلقائي بالذكاء الاصطناعي يحتاج إلى خدمة AI مرتبطة بالخادم.",
-titlePH:"عنوان الفيديو",
-descPH:"اكتب وصف الفيديو",
-tagsPH:"#هاشتاغات",
-draft:"إنشاء مسودة أولية",
-prepare:"تحضير المنشورات",
+draft:"إنشاء مسودة أولية",prepare:"تحضير المنشورات",
 publishNotice:"هذه النسخة تجهّز الواجهة والمسودات فقط. النشر الحقيقي يتطلب موافقات API وربطاً آمناً لكل منصة.",
-account:"حساب NexPost",
-accountHint:"سجّل الدخول لحفظ حسابك. لا تدخل كلمات مرور منصات التواصل هنا.",
-google:"المتابعة باستخدام Google",
-emailLogin:"الدخول بالبريد",
-logout:"تسجيل الخروج",
+account:"حساب NexPost",accountHint:"سجّل الدخول لحفظ حسابك. لا تدخل كلمات مرور منصات التواصل هنا.",
+google:"المتابعة باستخدام Google",emailLogin:"الدخول بالبريد",logout:"تسجيل الخروج",
 keyNotice:"ضع Supabase Publishable Key في إعدادات الملف لتفعيل تسجيل الدخول. لا تضع Secret Key هنا.",
-connect:"ربط حسابات التواصل",
-unlinked:"غير مربوط",
+connect:"ربط حسابات التواصل",unlinked:"غير مربوط",
 oauthHint:"يحتاج الربط الفعلي إلى OAuth وموافقات التطبيقات وخدمات خادم آمنة.",
-overview:"ملخص الأداء",
-views:"المشاهدات",
-likes:"الإعجابات",
-comments:"التعليقات",
+overview:"ملخص الأداء",views:"المشاهدات",likes:"الإعجابات",comments:"التعليقات",
 metricsHint:"تظهر الأرقام بعد ربط الحسابات واسترجاع بيانات التحليلات.",
-dashboards:"لوحة منفصلة لكل منصة",
-waiting:"بانتظار الربط",
-emailTitle:"الدخول بالبريد",
-signin:"دخول",
-signup:"إنشاء حساب",
-cancel:"إلغاء",
-needKey:"أضف Supabase Publishable Key أولاً.",
-needVideo:"اختر فيديو أولاً.",
-needPlatform:"اختر منصة واحدة على الأقل.",
-draftDone:"تم إنشاء مسودة أولية؛ راجعها وعدّلها.",
+dashboards:"لوحة منفصلة لكل منصة",waiting:"بانتظار الربط",
+emailTitle:"الدخول بالبريد",signin:"دخول",signup:"إنشاء حساب",cancel:"إلغاء",
+needKey:"أضف Supabase Publishable Key أولاً.",needVideo:"اختر فيديو أولاً.",
+needPlatform:"اختر منصة واحدة على الأقل.",draftDone:"تم إنشاء مسودة أولية؛ راجعها وعدّلها.",
 prepared:"تم تحضير المسودة للمنصات المختارة. النشر الحقيقي غير مفعّل بعد.",
-authError:"خطأ في تسجيل الدخول: ",
-signedIn:"تم تسجيل الدخول",
-signedOutMsg:"تم تسجيل الخروج",
+authError:"خطأ في تسجيل الدخول: ",signedIn:"تم تسجيل الدخول",
+signedOut:"غير مسجل الدخول",signedOutMsg:"تم تسجيل الخروج",
 checkMail:"تحقق من بريدك لتأكيد الحساب."
 },
-
 en:{
-hero:"Publish your video from one place",
-intro:"Upload one video, prepare content for each platform, and track every account in one dashboard.",
-signedOut:"Not signed in",
-upload:"1. Upload video",
-choose:"Choose a video from your device",
-formats:"MP4 or MOV · one file",
-platforms:"2. Choose platforms",
-content:"3. Prepare video content",
+hero:"Publish your video from one place",intro:"Upload one video, prepare content for each platform, and track every account in one dashboard.",
+upload:"1. Upload video",choose:"Choose a video from your device",formats:"MP4 or MOV · one file",
+platforms:"2. Choose platforms",content:"3. Prepare video content",
 aiHint:"Write your own copy or create a starter draft. Automatic AI analysis needs an AI service connected on the backend.",
-titlePH:"Video title",
-descPH:"Write your video description",
-tagsPH:"#hashtags",
-draft:"Create starter draft",
-prepare:"Prepare posts",
+draft:"Create starter draft",prepare:"Prepare posts",
 publishNotice:"This version prepares the interface and drafts only. Live publishing requires API approvals and secure integrations.",
-account:"NexPost account",
-accountHint:"Sign in to save your account. Never enter social platform passwords here.",
-google:"Continue with Google",
-emailLogin:"Sign in with email",
-logout:"Sign out",
-keyNotice:"Add your Supabase Publishable Key in this file to enable sign-in. Never put a Secret Key here.",
-connect:"Connect social accounts",
-unlinked:"Not connected",
+account:"NexPost account",accountHint:"Sign in to save your account. Never enter social platform passwords here.",
+google:"Continue with Google",emailLogin:"Sign in with email",logout:"Sign out",
+keyNotice:"Add your Supabase Publishable Key in this file. Never put a Secret Key here.",
+connect:"Connect social accounts",unlinked:"Not connected",
 oauthHint:"Live connections require OAuth, app approvals, and secure server functions.",
-overview:"Performance overview",
-views:"Views",
-likes:"Likes",
-comments:"Comments",
+overview:"Performance overview",views:"Views",likes:"Likes",comments:"Comments",
 metricsHint:"Metrics appear after accounts are connected and analytics are fetched.",
-dashboards:"Separate platform dashboards",
-waiting:"Awaiting connection",
-emailTitle:"Email sign in",
-signin:"Sign in",
-signup:"Create account",
-cancel:"Cancel",
-needKey:"Add the Supabase Publishable Key first.",
-needVideo:"Choose a video first.",
-needPlatform:"Select at least one platform.",
-draftDone:"Starter draft created. Review and edit it.",
-prepared:"Draft prepared for selected platforms. Live publishing is not enabled.",
-authError:"Sign-in error: ",
-signedIn:"Signed in",
-signedOutMsg:"Signed out",
+dashboards:"Separate platform dashboards",waiting:"Awaiting connection",
+emailTitle:"Email sign in",signin:"Sign in",signup:"Create account",cancel:"Cancel",
+needKey:"Add the Supabase Publishable Key first.",needVideo:"Choose a video first.",
+needPlatform:"Select at least one platform.",draftDone:"Starter draft created. Review and edit it.",
+prepared:"Draft prepared. Live publishing is not enabled.",
+authError:"Sign-in error: ",signedIn:"Signed in",
+signedOut:"Not signed in",signedOutMsg:"Signed out",
 checkMail:"Check your email to confirm your account."
 },
-
 fr:{
-hero:"Publiez votre vidéo depuis un seul endroit",
-intro:"Importez une vidéo, préparez le contenu pour chaque plateforme et suivez chaque compte depuis un tableau de bord.",
-signedOut:"Non connecté",
-upload:"1. Importer une vidéo",
-choose:"Choisissez une vidéo sur votre appareil",
-formats:"MP4 ou MOV · un fichier",
-platforms:"2. Choisir les plateformes",
-content:"3. Préparer le contenu",
+hero:"Publiez votre vidéo depuis un seul endroit",intro:"Importez une vidéo, préparez le contenu pour chaque plateforme et suivez chaque compte depuis un tableau de bord.",
+upload:"1. Importer une vidéo",choose:"Choisissez une vidéo sur votre appareil",formats:"MP4 ou MOV · un fichier",
+platforms:"2. Choisir les plateformes",content:"3. Préparer le contenu",
 aiHint:"Rédigez votre texte ou créez un brouillon. L’analyse IA nécessite un service connecté côté serveur.",
-titlePH:"Titre de la vidéo",
-descPH:"Description de la vidéo",
-tagsPH:"#hashtags",
-draft:"Créer un brouillon",
-prepare:"Préparer les publications",
+draft:"Créer un brouillon",prepare:"Préparer les publications",
 publishNotice:"Cette version prépare l’interface et les brouillons uniquement. La publication réelle exige des autorisations API et des connexions sécurisées.",
-account:"Compte NexPost",
-accountHint:"Connectez-vous pour enregistrer votre compte. Ne saisissez jamais vos mots de passe sociaux ici.",
-google:"Continuer avec Google",
-emailLogin:"Connexion par e-mail",
-logout:"Déconnexion",
+account:"Compte NexPost",accountHint:"Connectez-vous pour enregistrer votre compte. Ne saisissez jamais vos mots de passe sociaux ici.",
+google:"Continuer avec Google",emailLogin:"Connexion par e-mail",logout:"Déconnexion",
 keyNotice:"Ajoutez la clé Publishable Supabase dans ce fichier. Ne mettez aucune clé secrète ici.",
-connect:"Lier les comptes sociaux",
-unlinked:"Non connecté",
+connect:"Lier les comptes sociaux",unlinked:"Non connecté",
 oauthHint:"La connexion réelle exige OAuth, des validations et des fonctions serveur sécurisées.",
-overview:"Aperçu des performances",
-views:"Vues",
-likes:"J’aime",
-comments:"Commentaires",
-metricsHint:"Les statistiques apparaîtront après la liaison des comptes et la récupération des données.",
-dashboards:"Tableaux de bord par plateforme",
-waiting:"En attente de liaison",
-emailTitle:"Connexion par e-mail",
-signin:"Connexion",
-signup:"Créer un compte",
-cancel:"Annuler",
-needKey:"Ajoutez d’abord la clé Publishable Supabase.",
-needVideo:"Choisissez d’abord une vidéo.",
-needPlatform:"Sélectionnez au moins une plateforme.",
-draftDone:"Brouillon créé. Vérifiez-le et modifiez-le.",
+overview:"Aperçu des performances",views:"Vues",likes:"J’aime",comments:"Commentaires",
+metricsHint:"Les statistiques apparaîtront après la liaison des comptes.",
+dashboards:"Tableaux de bord par plateforme",waiting:"En attente de liaison",
+emailTitle:"Connexion par e-mail",signin:"Connexion",signup:"Créer un compte",cancel:"Annuler",
+needKey:"Ajoutez d’abord la clé Publishable Supabase.",needVideo:"Choisissez d’abord une vidéo.",
+needPlatform:"Sélectionnez au moins une plateforme.",draftDone:"Brouillon créé. Vérifiez-le et modifiez-le.",
 prepared:"Brouillon préparé. La publication réelle n’est pas encore activée.",
-authError:"Erreur de connexion : ",
-signedIn:"Connecté",
-signedOutMsg:"Déconnecté",
+authError:"Erreur de connexion : ",signedIn:"Connecté",
+signedOut:"Non connecté",signedOutMsg:"Déconnecté",
 checkMail:"Vérifiez votre e-mail pour confirmer le compte."
 },
-
 de:{
-hero:"Veröffentliche dein Video an einem Ort",
-intro:"Lade ein Video hoch, bereite Inhalte für jede Plattform vor und verfolge alle Konten in einem Dashboard.",
-signedOut:"Nicht angemeldet",
-upload:"1. Video hochladen",
-choose:"Video auf deinem Gerät auswählen",
-formats:"MP4 oder MOV · eine Datei",
-platforms:"2. Plattformen auswählen",
-content:"3. Videoinhalt vorbereiten",
+hero:"Veröffentliche dein Video an einem Ort",intro:"Lade ein Video hoch, bereite Inhalte für jede Plattform vor und verfolge alle Konten in einem Dashboard.",
+upload:"1. Video hochladen",choose:"Video auf deinem Gerät auswählen",formats:"MP4 oder MOV · eine Datei",
+platforms:"2. Plattformen auswählen",content:"3. Videoinhalt vorbereiten",
 aiHint:"Schreibe deinen Text oder erstelle einen Entwurf. Die automatische KI-Analyse benötigt einen serverseitig verbundenen KI-Dienst.",
-titlePH:"Videotitel",
-descPH:"Videobeschreibung",
-tagsPH:"#hashtags",
-draft:"Entwurf erstellen",
-prepare:"Beiträge vorbereiten",
+draft:"Entwurf erstellen",prepare:"Beiträge vorbereiten",
 publishNotice:"Diese Version erstellt nur Oberfläche und Entwürfe. Echtes Veröffentlichen benötigt API-Freigaben und sichere Integrationen.",
-account:"NexPost-Konto",
-accountHint:"Melde dich an, um dein Konto zu speichern. Gib hier niemals Social-Media-Passwörter ein.",
-google:"Weiter mit Google",
-emailLogin:"Mit E-Mail anmelden",
-logout:"Abmelden",
+account:"NexPost-Konto",accountHint:"Melde dich an, um dein Konto zu speichern. Gib hier niemals Social-Media-Passwörter ein.",
+google:"Weiter mit Google",emailLogin:"Mit E-Mail anmelden",logout:"Abmelden",
 keyNotice:"Füge den Supabase Publishable Key in diese Datei ein. Niemals einen Secret Key hier einfügen.",
-connect:"Social-Konten verbinden",
-unlinked:"Nicht verbunden",
+connect:"Social-Konten verbinden",unlinked:"Nicht verbunden",
 oauthHint:"Echte Verbindungen benötigen OAuth, App-Freigaben und sichere Serverfunktionen.",
-overview:"Leistungsübersicht",
-views:"Aufrufe",
-likes:"Gefällt mir",
-comments:"Kommentare",
+overview:"Leistungsübersicht",views:"Aufrufe",likes:"Gefällt mir",comments:"Kommentare",
 metricsHint:"Kennzahlen erscheinen nach Kontoverknüpfung und Abruf der Analysedaten.",
-dashboards:"Dashboards je Plattform",
-waiting:"Verbindung ausstehend",
-emailTitle:"E-Mail-Anmeldung",
-signin:"Anmelden",
-signup:"Konto erstellen",
-cancel:"Abbrechen",
-needKey:"Füge zuerst den Supabase Publishable Key ein.",
-needVideo:"Bitte zuerst ein Video auswählen.",
-needPlatform:"Wähle mindestens eine Plattform.",
-draftDone:"Entwurf erstellt. Bitte prüfen und bearbeiten.",
+dashboards:"Dashboards je Plattform",waiting:"Verbindung ausstehend",
+emailTitle:"E-Mail-Anmeldung",signin:"Anmelden",signup:"Konto erstellen",cancel:"Abbrechen",
+needKey:"Füge zuerst den Supabase Publishable Key ein.",needVideo:"Bitte zuerst ein Video auswählen.",
+needPlatform:"Wähle mindestens eine Plattform.",draftDone:"Entwurf erstellt. Bitte prüfen und bearbeiten.",
 prepared:"Entwurf vorbereitet. Live-Veröffentlichung ist noch nicht aktiviert.",
-authError:"Anmeldefehler: ",
-signedIn:"Angemeldet",
-signedOutMsg:"Abgemeldet",
+authError:"Anmeldefehler: ",signedIn:"Angemeldet",
+signedOut:"Nicht angemeldet",signedOutMsg:"Abgemeldet",
 checkMail:"Prüfe deine E-Mail zur Bestätigung."
 }
 };
@@ -419,7 +311,7 @@ let client=null;
 const tr=k=>dict[lang][k]||dict.en[k]||k;
 
 function toast(s){
-let e=document.getElementById("toast");
+const e=document.getElementById("toast");
 e.textContent=s;
 e.classList.remove("hidden");
 setTimeout(()=>e.classList.add("hidden"),3200);
@@ -428,8 +320,9 @@ setTimeout(()=>e.classList.add("hidden"),3200);
 function translate(){
 document.documentElement.lang=lang;
 document.documentElement.dir=lang==="ar"?"rtl":"ltr";
-document.querySelectorAll("[data-t]").forEach(e=>e.textContent=tr(e.dataset.t));
-document.querySelectorAll("[data-ph]").forEach(e=>e.placeholder=tr(e.dataset.ph));
+document.querySelectorAll("[data-t]").forEach(e=>{
+if(dict[lang][e.dataset.t])e.textContent=tr(e.dataset.t);
+});
 }
 
 document.getElementById("lang").onchange=e=>{
@@ -439,7 +332,7 @@ translate();
 
 document.querySelectorAll("[data-p]").forEach(b=>{
 b.onclick=()=>{
-let p=b.dataset.p;
+const p=b.dataset.p;
 if(chosen.has(p)){
 chosen.delete(p);
 b.classList.remove("active");
@@ -451,22 +344,40 @@ b.classList.add("active");
 });
 
 document.getElementById("file").onchange=e=>{
-let f=e.target.files[0];
+const f=e.target.files[0];
 if(!f)return;
 if(videoURL)URL.revokeObjectURL(videoURL);
 videoURL=URL.createObjectURL(f);
-let v=document.getElementById("preview");
+const v=document.getElementById("preview");
 v.src=videoURL;
 v.classList.remove("hidden");
 document.getElementById("fileInfo").textContent=f.name+" · "+(f.size/1048576).toFixed(1)+" MB";
 };
 
 document.getElementById("draft").onclick=()=>{
-let f=document.getElementById("file").files[0];
+const f=document.getElementById("file").files[0];
 if(!f)return toast(tr("needVideo"));
-let base=f.name.replace(/\.[^.]+$/,"").replace(/[_-]/g," ");
+const base=f.name.replace(/\.[^.]+$/,"").replace(/[_-]/g," ");
 if(!document.getElementById("title").value)document.getElementById("title").value=base;
 if(!document.getElementById("desc").value){
 document.getElementById("desc").value=lang==="ar"?"شاهدوا هذا الفيديو وشاركوني آراءكم!":lang==="fr"?"Découvrez cette vidéo et partagez votre avis !":lang==="de"?"Sieh dir dieses Video an und teile deine Meinung!":"Watch this video and share your thoughts!";
 }
-if(!document.getElementById("tags").value)document.getElementById("tags").value
+if(!document.getElementById("tags").value)document.getElementById("tags").value="#NexPost #Video";
+toast(tr("draftDone"));
+};
+
+document.getElementById("prepare").onclick=()=>{
+if(!document.getElementById("file").files[0])return toast(tr("needVideo"));
+if(!chosen.size)return toast(tr("needPlatform"));
+toast(tr("prepared"));
+};
+
+function openLogin(){
+document.getElementById("modal").classList.remove("hidden");
+}
+function closeLogin(){
+document.getElementById("modal").classList.add("hidden");
+}
+document.getElementById("email").onclick=openLogin;
+document.getElementById("authBtn").onclick=openLogin;
+document.getElementById("close").
