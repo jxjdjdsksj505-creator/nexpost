@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -151,7 +150,6 @@ button:disabled{opacity:.55;cursor:not-allowed}
 </style>
 </head>
 <body>
-
 <!-- تسجيل الدخول -->
 <section class="auth-screen" id="authScreen">
 <div class="auth-card" id="authCard">
@@ -160,7 +158,6 @@ button:disabled{opacity:.55;cursor:not-allowed}
 <h1>NexPost</h1>
 <p>مكان واحد لتنظيم محتواك</p>
 </div>
-
 <div id="normalAuth">
 <div class="tabs">
 <button class="tab active" id="loginTab" type="button">تسجيل الدخول</button>
@@ -193,7 +190,6 @@ button:disabled{opacity:.55;cursor:not-allowed}
 <button class="btn block" id="googleBtn" type="button">🌐 المتابعة باستخدام Google</button>
 <div class="auth-foot">NexPost © 2026</div>
 </div>
-
 <div id="forgotPanel" class="hidden">
 <h3>استعادة كلمة المرور</h3>
 <p style="font-size:12px;color:var(--muted);line-height:1.8">أدخل بريدك الإلكتروني وسنرسل إليه رابطاً آمناً لإعادة تعيين كلمة المرور.</p>
@@ -207,7 +203,6 @@ button:disabled{opacity:.55;cursor:not-allowed}
 </form>
 <button class="text-link" id="backLogin" type="button">العودة إلى تسجيل الدخول</button>
 </div>
-
 <div id="recoveryPanel" class="hidden">
 <h3>تعيين كلمة مرور جديدة</h3>
 <p style="font-size:12px;color:var(--muted);line-height:1.8">أدخل كلمة المرور الجديدة مرتين.</p>
@@ -227,7 +222,6 @@ button:disabled{opacity:.55;cursor:not-allowed}
 <div class="auth-foot">إدارة المحتوى من مكان واحد</div>
 </div>
 </section>
-
 <!-- التطبيق -->
 <div class="app" id="app">
 <aside class="sidebar" id="sidebar">
@@ -250,7 +244,6 @@ button:disabled{opacity:.55;cursor:not-allowed}
 </div>
 </div>
 </aside>
-
 <main class="main">
 <header class="topbar">
 <div style="display:flex;align-items:center;gap:10px">
@@ -262,7 +255,6 @@ button:disabled{opacity:.55;cursor:not-allowed}
 <button class="btn primary" id="newPostBtn" type="button">＋ منشور جديد</button>
 </div>
 </header>
-
 <!-- الرئيسية -->
 <section class="page active" id="page-dashboard">
 <div class="welcome"><h2>أهلاً بك في NexPost 👋</h2><p>جهّز محتواك ونظّم مسوداتك من مكان واحد. ستظهر بيانات المنصات بعد إعداد الربط الرسمي.</p></div>
@@ -297,7 +289,6 @@ button:disabled{opacity:.55;cursor:not-allowed}
 <div class="section-head"><h2>أحدث المسودات</h2><button class="btn small" data-open-page="drafts">عرض الكل</button></div>
 <div class="panel"><div id="recentDrafts" class="draft-list"><div class="empty"><b>📝</b>لا توجد مسودات محفوظة.</div></div></div>
 </section>
-
 <!-- إنشاء منشور -->
 <section class="page" id="page-composer">
 <div class="content-grid">
@@ -333,14 +324,12 @@ button:disabled{opacity:.55;cursor:not-allowed}
 </div>
 </div>
 </section>
-
 <!-- المسودات -->
 <section class="page" id="page-drafts">
 <div class="welcome"><h2>مسوداتك</h2><p>افتح المسودات لتعديلها أو انسخ نصها أو احذفها.</p></div>
 <div class="panel"><div class="section-head" style="margin-top:0"><h2>كل المسودات</h2><small id="draftSubtitle">0 مسودة</small></div><div id="allDrafts" class="draft-list"><div class="empty"><b>📝</b>لا توجد مسودات.</div></div></div>
 <div class="notice blue">المسودات محفوظة على هذا المتصفح والجهاز فقط، ولا تتم مزامنتها بين الأجهزة.</div>
 </section>
-
 <!-- صفحات المنصات -->
 <section class="page" id="page-tiktok">
 <div class="welcome"><h2>♪ لوحة TikTok</h2><p>إدارة وتجهيز محتوى TikTok.</p></div>
@@ -357,7 +346,6 @@ button:disabled{opacity:.55;cursor:not-allowed}
 <div class="stats"><div class="stat"><div class="stat-icon">◉</div><h3>—</h3><p>الوصول</p></div><div class="stat"><div class="stat-icon">♡</div><h3>—</h3><p>الإعجابات</p></div><div class="stat"><div class="stat-icon">▤</div><h3>—</h3><p>المنشورات</p></div><div class="stat"><div class="stat-icon">♧</div><h3>—</h3><p>المتابعون</p></div></div>
 <div class="panel" style="margin-top:15px"><h3>حالة الاتصال</h3><p style="font-size:12px;color:var(--muted);line-height:1.9">يلزم إعداد تطبيق Meta وصلاحيات Instagram API وحساب مؤهل وخادم آمن لحفظ الرموز.</p><button class="btn primary" data-require="Instagram">متطلبات الربط</button><button class="btn" data-create-for="Instagram">تجهيز مسودة لـ Instagram</button></div>
 </section>
-
 <!-- إعدادات الحساب -->
 <section class="page" id="page-account">
 <div class="panel" style="max-width:720px">
@@ -379,7 +367,6 @@ button:disabled{opacity:.55;cursor:not-allowed}
 </section>
 </main>
 </div>
-
 <div class="dialog-back" id="dialogBack">
 <div class="dialog">
 <h3 id="dialogTitle">NexPost</h3>
@@ -391,19 +378,16 @@ button:disabled{opacity:.55;cursor:not-allowed}
 
 <script>
 'use strict';
-
 /* أدخل Supabase Publishable Key هنا. لا تضع service_role أو Secret Key. */
 const SUPABASE_URL='https://ubjxouxdngrgldbjltkd.supabase.co';
-const SUPABASE_PUBLISHABLE_KEY='PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_cneT3HWJA9XDl36nHeEMtg_e93XKLP7';
 const REDIRECT_URL=location.origin+location.pathname;
 const DB_NAME='nexpost_drafts_database';
 const STORE='drafts';
-
 const $=id=>document.getElementById(id);
 let client=null,user=null,authMode='login',dbPromise=null;
 let selectedVideo=null,videoName='',videoURL=null,editingId=null,removeOldVideo=false;
 let recoveryMode=false;
-
 function toast(message){
  const node=$('toast');node.textContent=message;node.classList.add('show');
  clearTimeout(toast.timer);toast.timer=setTimeout(()=>node.classList.remove('show'),3500);
@@ -457,7 +441,6 @@ $('backLogin').onclick=()=>authPanel('normalAuth');
 document.querySelectorAll('[data-toggle]').forEach(button=>button.onclick=()=>{
  const input=$(button.dataset.toggle);input.type=input.type==='password'?'text':'password';
 });
-
 function showApp(sessionUser){
  if(!sessionUser)return;
  user=sessionUser;
@@ -498,8 +481,7 @@ async function init(){
  if(data.session?.user)showApp(data.session.user);else showAuth();
  }catch(error){message('authMessage',friendly(error),'error');}
 }
-
-$('authForm').addEventListener('submit',async event=>{
+ $('authForm').addEventListener('submit',async event=>{
  event.preventDefault();clearMessage('authMessage');
  let api;try{api=requireClient();}catch(e){message('authMessage',e.message,'error');return;}
  const email=$('email').value.trim(),password=$('password').value,confirm=$('confirmPassword').value;
@@ -524,7 +506,6 @@ $('authForm').addEventListener('submit',async event=>{
   $('authCard').classList.remove('shake');void $('authCard').offsetWidth;$('authCard').classList.add('shake');
  }finally{busy(button,false,authMode==='login'?'تسجيل الدخول':'إنشاء حساب');}
 });
-
 $('googleBtn').onclick=async()=>{
  let api;try{api=requireClient();}catch(e){message('authMessage',e.message,'error');return;}
  const button=$('googleBtn');busy(button,true);
@@ -533,7 +514,6 @@ $('googleBtn').onclick=async()=>{
   if(error)throw error;
  }catch(error){message('authMessage',friendly(error),'error');busy(button,false,'🌐 المتابعة باستخدام Google');}
 };
-
 $('forgotForm').onsubmit=async event=>{
  event.preventDefault();clearMessage('forgotMessage');
  let api;try{api=requireClient();}catch(e){message('forgotMessage',e.message,'error');return;}
@@ -547,7 +527,6 @@ $('forgotForm').onsubmit=async event=>{
  }catch(error){message('forgotMessage',friendly(error),'error');}
  finally{busy(button,false,'إرسال رابط الاستعادة');}
 };
-
 $('recoveryForm').onsubmit=async event=>{
  event.preventDefault();clearMessage('recoveryMessage');
  let api;try{api=requireClient();}catch(e){message('recoveryMessage',e.message,'error');return;}
@@ -570,7 +549,6 @@ $('recoveryForm').onsubmit=async event=>{
  }catch(error){message('recoveryMessage',friendly(error),'error');}
  finally{busy(button,false,'حفظ كلمة المرور الجديدة');}
 };
-
 async function logout(){
  if(!client){showAuth();return;}
  try{const {error}=await client.auth.signOut();if(error)throw error;showAuth();toast('تم تسجيل الخروج.');}
@@ -578,7 +556,6 @@ async function logout(){
 }
 $('logoutBtn').onclick=logout;
 $('accountLogout').onclick=logout;
-
 /* التنقل */
 const pageNames={
  dashboard:['لوحة التحكم','نظرة عامة على محتواك'],
@@ -605,7 +582,6 @@ document.querySelectorAll('[data-open-page]').forEach(b=>b.onclick=()=>openPage(
 document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openPage(b.dataset.open));
 $('newPostBtn').onclick=()=>{resetComposer();openPage('composer');};
 $('menuBtn').onclick=()=>$('sidebar').classList.toggle('open');
-
 /* نافذة معلومات المنصات */
 const requirements={
  TikTok:'ربط TikTok غير مفعّل بعد. يلزم إنشاء تطبيق في بوابة مطوري TikTok، إعداد OAuth وصلاحيات API المطلوبة، ثم اجتياز مراجعة المنصة عند اشتراطها. لا تدخل كلمة مرور TikTok في NexPost. يتطلب حفظ رموز الوصول خادماً آمناً.',
@@ -623,7 +599,6 @@ function closeDialog(){$('dialogBack').classList.remove('open');}
 $('dialogBack').addEventListener('click',e=>{if(e.target===$('dialogBack'))closeDialog();});
 document.querySelectorAll('[data-require]').forEach(b=>b.onclick=()=>dialog('متطلبات ربط '+b.dataset.require,requirements[b.dataset.require],b.dataset.require));
 document.querySelectorAll('[data-create-for]').forEach(b=>b.onclick=()=>{resetComposer();const c=document.querySelector('.check-pill input[value="'+b.dataset.createFor+'"]');if(c)c.checked=true;openPage('composer');preview();toast('تم اختيار المنصة للمسودة.');});
-
 /* قاعدة بيانات محلية للمسودات والفيديوهات */
 function openDB(){
  if(dbPromise)return dbPromise;
@@ -651,8 +626,7 @@ const saveOne=x=>dbAction('readwrite',s=>s.put(x));
 const deleteOne=id=>dbAction('readwrite',s=>s.delete(id));
 const makeId=()=>crypto.randomUUID?crypto.randomUUID():'draft-'+Date.now()+'-'+Math.random().toString(16).slice(2);
 const platforms=()=>[...document.querySelectorAll('.check-pill input:checked')].map(x=>x.value);
-
-function setVideo(blob,name){
+ function setVideo(blob,name){
  selectedVideo=blob||null;videoName=name||'';
  if(videoURL)URL.revokeObjectURL(videoURL);
  videoURL=null;
@@ -672,7 +646,6 @@ $('videoFile').onchange=e=>{
  selectedVideo=file;removeOldVideo=false;setVideo(file,file.name);
 };
 $('removeVideo').onclick=()=>{removeOldVideo=true;setVideo(null,'');$('videoFile').value='';toast('تمت إزالة الفيديو من المسودة الحالية.');};
-
 function preview(){
  const box=$('postPreview');box.innerHTML='';
  const title=$('postTitle').value.trim(),desc=$('postDescription').value.trim(),tags=$('postTags').value.trim();
@@ -686,7 +659,6 @@ function preview(){
 }
 ['postTitle','postDescription','postTags'].forEach(id=>$(id).addEventListener('input',preview));
 document.querySelectorAll('.check-pill input').forEach(x=>x.addEventListener('change',preview));
-
 function resetComposer(){
  $('composerForm').reset();setVideo(null,'');editingId=null;removeOldVideo=false;
  $('composerMessage').className='msg';$('readinessMessage').className='msg';preview();
@@ -725,7 +697,6 @@ $('checkReadyBtn').onclick=()=>{
  const text=problems.length?'توجد نقاط تحتاج إلى مراجعة:\n• '+problems.join('\n• '):'الفحص المحلي مكتمل: الحقول الأساسية موجودة. هذا لا يضمن قبول المنصة ولا يعني أن النشر مفعّل.';
  message('readinessMessage',text,problems.length?'info':'success');
 };
-
 function dateText(date){try{return new Date(date).toLocaleString('ar');}catch{return 'تاريخ غير متاح';}}
 function draftElement(record){
  const row=document.createElement('article');row.className='draft';
@@ -781,7 +752,6 @@ async function copyText(record){
   toast('تم نسخ نص المسودة.');
  }catch{toast('تعذّر النسخ التلقائي. افتح المسودة وانسخ النص يدوياً.');}
 }
-
 async function checkSession(){
  try{
   const api=requireClient();const {data,error}=await api.auth.getSession();if(error)throw error;
@@ -791,7 +761,6 @@ async function checkSession(){
 }
 $('refreshBtn').onclick=checkSession;
 $('checkSessionBtn').onclick=checkSession;
-
 $('changePasswordForm').onsubmit=async event=>{
  event.preventDefault();
  const password=$('accountPassword').value,confirm=$('accountPassword2').value;
@@ -804,7 +773,6 @@ $('changePasswordForm').onsubmit=async event=>{
  }catch(error){message('passwordMessage',friendly(error),'error');}
  finally{busy(button,false,'حفظ كلمة المرور');}
 };
-
 /* بدء التطبيق */
 openDB().catch(error=>{console.error(error);toast('تحذير: تخزين المسودات غير متاح في هذا المتصفح.');});
 init();
