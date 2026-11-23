@@ -1,383 +1,813 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b1020">
 <title>NexPost</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--bg:#090e1c;--p:#121d32;--p2:#0c1528;--line:#293954;--t:#edf3ff;--m:#9aabc5;--a:#718cff;--c:#39d5c5}
+:root{color-scheme:dark;--bg:#0b1020;--panel:#121d30;--panel2:#19263c;--line:#2b3b55;--text:#f4f7ff;--muted:#9cabc1;--purple:#8b65ff;--blue:#448cff;--green:#27c99a;--red:#ff7187}
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at 15% 0%,#1a2850,transparent 38%),var(--bg);color:var(--t);font:15px system-ui,Arial}
-.wrap{max-width:1160px;margin:auto;padding:20px}
-.top,.hero{display:flex;align-items:center;justify-content:space-between;gap:14px}
-.top{margin-bottom:26px}
-.brand{font-size:23px;font-weight:850;display:flex;align-items:center;gap:10px}
-.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--a),var(--c));display:grid;place-items:center;color:#071322}
-.controls{display:flex;gap:8px}
-.card{background:linear-gradient(180deg,#15223a,#101a2d);border:1px solid var(--line);border-radius:18px;padding:18px}
-.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}
-.stack{display:grid;gap:16px}
-.hero{margin:12px 0 22px}
-.hero h1{font-size:clamp(26px,4vw,39px);margin:5px 0}
-.hero p,.muted,.hint{color:var(--m);line-height:1.65}
-.eyebrow{color:var(--c);font-size:12px;font-weight:800;letter-spacing:1px}
-.btn,.field,select{border:1px solid var(--line);border-radius:11px;padding:10px 13px;background:var(--p2);color:var(--t);font:inherit}
-.btn{cursor:pointer}
-.btn:hover{border-color:var(--a)}
-.primary{background:linear-gradient(120deg,#718cff,#39cbd4);color:#071322;border:0;font-weight:800}
-.field{width:100%}
-textarea.field{min-height:92px;resize:vertical}
-.upload{min-height:170px;border:1.5px dashed #586d92;border-radius:15px;background:#0b1426;display:grid;place-items:center;text-align:center;padding:18px}
-.upload input{max-width:100%;margin-top:10px}
-.preview{width:100%;max-height:290px;margin-top:12px;border-radius:12px;background:#000}
-.platforms,.stats,.dashgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
-.platform{display:flex;align-items:center;gap:9px;text-align:start}
-.platform.active{border-color:var(--c);background:#12323b}
-.picon{width:34px;height:34px;display:grid;place-items:center;background:#253451;border-radius:10px;font-weight:bold}
-.platform b,.platform small{display:block}
-.platform small,.hint{font-size:12px;color:var(--m)}
-.fields{display:grid;gap:10px}
-.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}
-.status{font-size:11px;border-radius:30px;padding:5px 9px;background:#3b301e;color:#f5d39a}
-.stats{margin-top:12px}
-.stat,.dash{background:#0b1426;border:1px solid var(--line);border-radius:13px;padding:11px}
-.stat span{font-size:11px;color:var(--m)}
-.stat strong{display:block;font-size:22px;margin-top:5px}
-.connectrow{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
-.notice{margin-top:12px;padding:11px;border:1px solid #66502c;border-radius:11px;background:#2b2419;color:#f2d49b;font-size:12px;line-height:1.6}
+body{margin:0;background:radial-gradient(ellipse at 80% 0%,#553a9630,transparent 38%),var(--bg);color:var(--text);font-family:system-ui,Arial,sans-serif;min-height:100vh}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.55;cursor:not-allowed}
 .hidden{display:none!important}
-.modalback{position:fixed;inset:0;background:#0009;display:grid;place-items:center;padding:16px;z-index:1000}
-.modal{width:min(420px,100%);background:var(--p);border:1px solid var(--line);border-radius:18px;padding:20px}
-.modal .field{margin:6px 0 10px}
-.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#eef4ff;color:#111b2c;padding:11px 16px;border-radius:11px;z-index:1100;max-width:90%}
-footer{text-align:center;color:var(--m);font-size:11px;padding:24px}
-@media(max-width:820px){.grid{grid-template-columns:1fr}.hero{align-items:flex-start;flex-direction:column}.dashgrid{grid-template-columns:1fr}}
-@media(max-width:520px){.wrap{padding:13px}.platforms{grid-template-columns:1fr}.top{align-items:flex-start}.controls{flex-wrap:wrap;justify-content:flex-end}.card{padding:14px}}
+.btn{border:1px solid var(--line);background:var(--panel2);color:white;border-radius:11px;padding:11px 15px;min-height:41px;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .17s,background .2s,border-color .2s,box-shadow .2s}
+.btn:hover{background:#293b59;border-color:#617397}
+.btn:active{transform:scale(.95)}
+.primary{border:0;background:linear-gradient(110deg,#875cf5,#397dff);font-weight:700;box-shadow:0 6px 20px #704eea30}
+.primary:hover{box-shadow:0 8px 25px #704eea60}
+.danger{background:#351d2a;border-color:#74394b;color:#ff9cac}
+.small{font-size:11px;padding:8px 10px;min-height:34px}
+.block{width:100%}
+.spinner{display:inline-block;width:15px;height:15px;border:2px solid #ffffff55;border-top-color:white;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes rise{from{opacity:0;transform:translateY(13px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%,75%{transform:translateX(-6px)}50%{transform:translateX(6px)}}
+.shake{animation:shake .32s}
+.auth-screen{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:16px;overflow:auto;background:radial-gradient(ellipse at 15% 15%,#593d9c55,transparent 38%),radial-gradient(ellipse at 85% 85%,#174b8b44,transparent 35%),#080d18;animation:fade .35s}
+.auth-card{width:min(100%,430px);padding:29px;background:#121c2d;border:1px solid #34445f;border-radius:23px;box-shadow:0 25px 80px #0009;animation:rise .45s}
+.brand{display:flex;align-items:center;gap:10px;font-size:23px;font-weight:850}
+.brand-mark{width:43px;height:43px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,#9569ff,#397dff);font-weight:900;box-shadow:0 7px 20px #7655ff55}
+.auth-brand{display:flex;flex-direction:column;align-items:center;margin-bottom:23px}
+.auth-brand .brand-mark{width:55px;height:55px;font-size:24px}
+.auth-brand h1{font-size:26px;margin:12px 0 5px}
+.auth-brand p{color:var(--muted);font-size:12px;margin:0}
+.tabs{display:grid;grid-template-columns:1fr 1fr;padding:4px;background:#0a1220;border:1px solid var(--line);border-radius:12px;margin-bottom:19px}
+.tab{border:0;background:transparent;color:var(--muted);border-radius:9px;padding:10px}
+.tab.active{background:#2b3953;color:white}
+.field{margin-bottom:15px}
+.field label{display:block;font-size:12px;color:#c6d1e1;margin-bottom:8px}
+.field input,.field textarea{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:11px;background:#0b1423;color:white;outline:0;transition:.2s}
+.field input:focus,.field textarea:focus{border-color:#9678ff;box-shadow:0 0 0 3px #8b65ff22}
+.field textarea{min-height:110px;resize:vertical;line-height:1.7}
+.password-wrap{position:relative}
+.password-wrap input{padding-left:48px}
+.toggle-pass{position:absolute;left:7px;top:50%;transform:translateY(-50%);border:0;background:none;color:#aebbd0;padding:8px}
+.msg{display:none;padding:11px 13px;border-radius:10px;font-size:12px;line-height:1.7;margin-bottom:14px;animation:rise .2s}
+.msg.show{display:block}
+.msg.error{background:#421f2b;color:#ffabb7;border:1px solid #813b4e}
+.msg.success{background:#123b32;color:#7be9c5;border:1px solid #267960}
+.msg.info{background:#192c49;color:#b6d4ff;border:1px solid #355a8d}
+.text-link{display:block;background:none;border:0;color:#b8a4ff;font-size:12px;text-decoration:underline;padding:9px;margin:auto}
+.divider{display:flex;align-items:center;gap:12px;color:#74839b;font-size:11px;margin:17px 0}
+.divider:before,.divider:after{content:"";height:1px;background:var(--line);flex:1}
+.auth-foot{text-align:center;color:#75839b;font-size:10px;line-height:1.7;margin-top:20px}
+.app{display:none;min-height:100vh}
+.sidebar{position:fixed;right:0;top:0;bottom:0;width:245px;padding:22px 15px;background:#0d1524;border-left:1px solid var(--line);z-index:20;display:flex;flex-direction:column;transition:transform .25s}
+.sidebar .brand{padding:0 8px 27px}
+.nav-label{font-size:10px;color:#71819b;padding:12px}
+.nav-btn{width:100%;display:flex;align-items:center;gap:12px;text-align:right;padding:12px;border:1px solid transparent;border-radius:11px;background:transparent;color:#adbbd0;margin:3px 0;transition:.2s}
+.nav-btn:hover{background:#1b2940;color:white}
+.nav-btn.active{background:#7655ff30;border-color:#7655ff55;color:white}
+.nav-ico{width:23px;text-align:center;font-size:18px}
+.sidebar-bottom{margin-top:auto;border-top:1px solid var(--line);padding-top:15px}
+.user-mini{display:flex;align-items:center;gap:9px}
+.avatar{width:37px;height:37px;display:grid;place-items:center;border-radius:50%;background:linear-gradient(135deg,#8a62ff,#3c88ff);font-weight:bold}
+.user-info{flex:1;min-width:0}
+.user-info strong{display:block;font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.user-info small{font-size:10px;color:var(--muted)}
+.main{margin-right:245px;padding:27px;max-width:1650px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:25px}
+.topbar h1{font-size:23px;margin:0 0 5px}
+.topbar p{font-size:11px;color:var(--muted);margin:0}
+.top-actions{display:flex;gap:8px}
+.mobile-menu{display:none}
+.page{display:none}
+.page.active{display:block;animation:rise .3s}
+.welcome{padding:25px;border:1px solid #5b4a9d;border-radius:19px;background:linear-gradient(115deg,#241c49,#172c4a 65%,#152238);margin-bottom:23px;position:relative;overflow:hidden}
+.welcome h2{font-size:21px;margin:0 0 8px}
+.welcome p{font-size:12px;line-height:1.8;color:#c4cde1;margin:0}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:24px 0 13px}
+.section-head h2{font-size:16px;margin:0}
+.section-head small{font-size:10px;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.stat{border:1px solid var(--line);border-radius:15px;padding:16px;background:linear-gradient(145deg,#172338,#111a2a);transition:.2s}
+.stat:hover{transform:translateY(-3px);border-color:#6552a5}
+.stat-icon{width:37px;height:37px;border-radius:11px;background:#805df526;display:grid;place-items:center;font-size:18px}
+.stat h3{font-size:23px;margin:14px 0 4px}
+.stat p{font-size:10px;color:var(--muted);margin:0}
+.platform-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.card,.panel{background:linear-gradient(145deg,#172338,#111a2a);border:1px solid var(--line);border-radius:17px;padding:18px;min-width:0}
+.card{transition:transform .2s,border-color .2s,box-shadow .2s}
+.card:hover{transform:translateY(-4px);border-color:#6959a4;box-shadow:0 12px 27px #0003}
+.platform-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px}
+.platform-brand{display:flex;align-items:center;gap:10px}
+.platform-logo{width:44px;height:44px;border-radius:13px;background:#fff1;display:grid;place-items:center;font-size:23px}
+.platform-brand h3{font-size:14px;margin:0 0 4px}
+.platform-brand small{font-size:10px;color:var(--muted)}
+.status{font-size:10px;padding:6px 9px;border-radius:30px;background:#342c20;color:#f1d18b;white-space:nowrap}
+.platform-desc{font-size:11px;line-height:1.8;color:#aebbd0;min-height:40px;margin:0 0 13px}
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:13px}
+.metric{padding:10px;background:#0c1524;border:1px solid #27364c;border-radius:10px}
+.metric small{display:block;color:var(--muted);font-size:10px;margin-bottom:6px}
+.metric strong{font-size:16px}
+.card-actions{display:flex;gap:7px}
+.card-actions .btn{flex:1;font-size:10px;padding:8px 5px}
+.panel h3{font-size:15px;margin:0 0 14px}
+.notice{padding:12px 14px;background:#302719;border:1px solid #6b542c;border-radius:12px;color:#f4d48c;font-size:11px;line-height:1.8;margin-top:14px}
+.notice.blue{background:#172b45;border-color:#355982;color:#c2dfff}
+.empty{border:1px dashed #394964;border-radius:14px;text-align:center;color:var(--muted);padding:28px 14px;font-size:12px;line-height:1.8}
+.empty b{display:block;font-size:28px;margin-bottom:8px}
+.content-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(250px,.8fr);gap:14px}
+.upload{display:block;text-align:center;border:1px dashed #607293;background:#0c1524;border-radius:14px;padding:22px 14px;cursor:pointer;transition:.2s}
+.upload:hover{border-color:#987aff;background:#17243a}
+.upload b{display:block;font-size:12px}
+.upload small{display:block;color:var(--muted);font-size:10px;margin-top:7px}
+.video-preview{width:100%;max-height:250px;border-radius:12px;background:black;margin-top:12px;display:none}
+.file-row{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:11px;color:var(--muted);margin-top:8px}
+.checks{display:flex;gap:8px;flex-wrap:wrap}
+.check-pill{display:flex;align-items:center;gap:7px;padding:9px 11px;border:1px solid var(--line);background:#0d1728;border-radius:10px;font-size:11px}
+.check-pill input{accent-color:#8b65ff}
+.preview{padding:15px;border:1px solid var(--line);background:#0c1524;border-radius:13px;line-height:1.8;overflow-wrap:anywhere}
+.preview strong{display:block;font-size:14px;margin-bottom:8px}
+.preview p{font-size:12px;color:#b4c0d2;margin:0 0 8px;white-space:pre-wrap}
+.preview .tags{color:#ad97ff}
+.draft-list{display:grid;gap:10px}
+.draft{display:flex;align-items:center;gap:11px;padding:12px;background:#0d1727;border:1px solid var(--line);border-radius:12px;flex-wrap:wrap}
+.draft-icon{width:42px;height:42px;display:grid;place-items:center;background:#7958ef26;border-radius:11px}
+.draft-info{flex:1;min-width:100px}
+.draft-info strong{display:block;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.draft-info small{display:block;font-size:10px;color:var(--muted);margin-top:5px}
+.draft-actions{display:flex;gap:5px;flex-wrap:wrap}
+.account-row{display:flex;justify-content:space-between;gap:10px;padding:13px 0;border-bottom:1px solid var(--line);font-size:12px}
+.account-row span{color:var(--muted)}
+.account-row strong{overflow-wrap:anywhere}
+.toast{position:fixed;bottom:20px;left:20px;z-index:100;max-width:calc(100% - 40px);padding:12px 16px;background:#1a2940;border:1px solid #425776;border-radius:12px;font-size:12px;opacity:0;transform:translateY(12px);pointer-events:none;transition:.23s}
+.toast.show{opacity:1;transform:translateY(0)}
+.dialog-back{position:fixed;inset:0;z-index:80;background:#030712c9;display:none;place-items:center;padding:18px}
+.dialog-back.open{display:grid;animation:fade .2s}
+.dialog{width:min(100%,470px);max-height:85vh;overflow:auto;background:#131e30;border:1px solid #3a4c69;border-radius:18px;padding:21px;animation:rise .25s}
+.dialog h3{font-size:16px;margin:0 0 12px}
+.dialog p{font-size:12px;line-height:1.9;color:#b4c0d2;white-space:pre-line}
+.dialog-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+@media(max-width:1050px){.platform-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.sidebar{width:270px;transform:translateX(105%);box-shadow:0 0 50px #0008}.sidebar.open{transform:translateX(0)}.main{margin-right:0;padding:17px 13px 35px}.mobile-menu{display:inline-flex}.topbar h1{font-size:19px}.topbar p{font-size:10px}.top-actions .btn{font-size:10px;padding:8px}.platform-grid,.content-grid{grid-template-columns:1fr}.welcome{padding:20px}.welcome h2{font-size:19px}.stats{gap:8px}.stat{padding:12px}.stat h3{font-size:20px}.auth-card{padding:23px 18px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
-<div class="wrap">
 
-<header class="top">
-<div class="brand"><span class="logo">N</span>NexPost</div>
-<div class="controls">
-<select id="lang">
-<option value="ar">🇸🇦 العربية</option>
-<option value="fr">🇫🇷 Français</option>
-<option value="en">🇬🇧 English</option>
-<option value="de">🇩🇪 Deutsch</option>
-</select>
-<button type="button" class="btn" id="authBtn">تسجيل الدخول</button>
+<!-- تسجيل الدخول -->
+<section class="auth-screen" id="authScreen">
+<div class="auth-card" id="authCard">
+<div class="auth-brand">
+<div class="brand-mark">N</div>
+<h1>NexPost</h1>
+<p>مكان واحد لتنظيم محتواك</p>
+</div>
+
+<div id="normalAuth">
+<div class="tabs">
+<button class="tab active" id="loginTab" type="button">تسجيل الدخول</button>
+<button class="tab" id="signupTab" type="button">إنشاء حساب</button>
+</div>
+<div class="msg" id="authMessage" role="status"></div>
+<form id="authForm">
+<div class="field">
+<label for="email">البريد الإلكتروني</label>
+<input id="email" type="email" autocomplete="email" placeholder="name@example.com" required>
+</div>
+<div class="field">
+<label for="password">كلمة المرور</label>
+<div class="password-wrap">
+<input id="password" type="password" minlength="8" autocomplete="current-password" placeholder="8 أحرف على الأقل" required>
+<button class="toggle-pass" type="button" data-toggle="password">◉</button>
+</div>
+</div>
+<div class="field hidden" id="confirmField">
+<label for="confirmPassword">تأكيد كلمة المرور</label>
+<div class="password-wrap">
+<input id="confirmPassword" type="password" minlength="8" autocomplete="new-password">
+<button class="toggle-pass" type="button" data-toggle="confirmPassword">◉</button>
+</div>
+</div>
+<button class="btn primary block" id="authSubmit" type="submit">تسجيل الدخول</button>
+</form>
+<button class="text-link" id="forgotLink" type="button">نسيت كلمة المرور؟</button>
+<div class="divider">أو</div>
+<button class="btn block" id="googleBtn" type="button">🌐 المتابعة باستخدام Google</button>
+<div class="auth-foot">NexPost © 2026</div>
+</div>
+
+<div id="forgotPanel" class="hidden">
+<h3>استعادة كلمة المرور</h3>
+<p style="font-size:12px;color:var(--muted);line-height:1.8">أدخل بريدك الإلكتروني وسنرسل إليه رابطاً آمناً لإعادة تعيين كلمة المرور.</p>
+<div class="msg" id="forgotMessage" role="status"></div>
+<form id="forgotForm">
+<div class="field">
+<label for="forgotEmail">البريد الإلكتروني</label>
+<input id="forgotEmail" type="email" required placeholder="name@example.com">
+</div>
+<button class="btn primary block" id="forgotSubmit" type="submit">إرسال رابط الاستعادة</button>
+</form>
+<button class="text-link" id="backLogin" type="button">العودة إلى تسجيل الدخول</button>
+</div>
+
+<div id="recoveryPanel" class="hidden">
+<h3>تعيين كلمة مرور جديدة</h3>
+<p style="font-size:12px;color:var(--muted);line-height:1.8">أدخل كلمة المرور الجديدة مرتين.</p>
+<div class="msg" id="recoveryMessage" role="status"></div>
+<form id="recoveryForm">
+<div class="field">
+<label for="newPassword">كلمة المرور الجديدة</label>
+<input id="newPassword" type="password" minlength="8" required>
+</div>
+<div class="field">
+<label for="newPasswordConfirm">تأكيد كلمة المرور</label>
+<input id="newPasswordConfirm" type="password" minlength="8" required>
+</div>
+<button class="btn primary block" id="recoverySubmit" type="submit">حفظ كلمة المرور الجديدة</button>
+</form>
+</div>
+<div class="auth-foot">إدارة المحتوى من مكان واحد</div>
+</div>
+</section>
+
+<!-- التطبيق -->
+<div class="app" id="app">
+<aside class="sidebar" id="sidebar">
+<div class="brand"><div class="brand-mark">N</div><span>NexPost</span></div>
+<div class="nav-label">القائمة الرئيسية</div>
+<button class="nav-btn active" data-page="dashboard"><span class="nav-ico">⌂</span>لوحة التحكم</button>
+<button class="nav-btn" data-page="composer"><span class="nav-ico">＋</span>إنشاء منشور</button>
+<button class="nav-btn" data-page="drafts"><span class="nav-ico">▤</span>المسودات</button>
+<div class="nav-label">المنصات</div>
+<button class="nav-btn" data-page="tiktok"><span class="nav-ico">♪</span>TikTok</button>
+<button class="nav-btn" data-page="youtube"><span class="nav-ico">▶</span>YouTube</button>
+<button class="nav-btn" data-page="instagram"><span class="nav-ico">◎</span>Instagram</button>
+<div class="nav-label">الحساب</div>
+<button class="nav-btn" data-page="account"><span class="nav-ico">⚙</span>إعدادات الحساب</button>
+<div class="sidebar-bottom">
+<div class="user-mini">
+<div class="avatar">N</div>
+<div class="user-info"><strong id="sidebarEmail">حساب NexPost</strong><small>الحساب الشخصي</small></div>
+<button class="btn small" id="logoutBtn" type="button">↪</button>
+</div>
+</div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+<div style="display:flex;align-items:center;gap:10px">
+<button class="btn mobile-menu" id="menuBtn" type="button">☰</button>
+<div><h1 id="pageTitle">لوحة التحكم</h1><p id="pageSubtitle">نظرة عامة على محتواك</p></div>
+</div>
+<div class="top-actions">
+<button class="btn" id="refreshBtn" type="button">⟳ تحديث</button>
+<button class="btn primary" id="newPostBtn" type="button">＋ منشور جديد</button>
 </div>
 </header>
 
-<section class="hero">
-<div>
-<div class="eyebrow">ONE VIDEO · THREE PLATFORMS</div>
-<h1 data-t="hero">انشر فيديوك من مكان واحد</h1>
-<p data-t="intro">ارفع فيديو واحداً، جهّز محتوى مناسباً لكل منصة، وتابع أداء كل حساب من لوحة واحدة.</p>
+<!-- الرئيسية -->
+<section class="page active" id="page-dashboard">
+<div class="welcome"><h2>أهلاً بك في NexPost 👋</h2><p>جهّز محتواك ونظّم مسوداتك من مكان واحد. ستظهر بيانات المنصات بعد إعداد الربط الرسمي.</p></div>
+<div class="section-head"><h2>نظرة عامة</h2><small>لا نعرض أرقاماً وهمية</small></div>
+<div class="stats">
+<div class="stat"><div class="stat-icon">▶</div><h3>—</h3><p>مشاهدات المنصات</p></div>
+<div class="stat"><div class="stat-icon">♡</div><h3>—</h3><p>الإعجابات</p></div>
+<div class="stat"><div class="stat-icon">▤</div><h3 id="draftCount">0</h3><p>المسودات المحفوظة</p></div>
+<div class="stat"><div class="stat-icon">◎</div><h3>0 / 3</h3><p>المنصات المرتبطة</p></div>
 </div>
-<span class="status" id="authStatus">غير مسجل الدخول</span>
+<div class="section-head"><h2>لوحات المنصات</h2><small>اختر المنصة لإدارة محتواك</small></div>
+<div class="platform-grid">
+<article class="card">
+<div class="platform-head"><div class="platform-brand"><div class="platform-logo">♪</div><div><h3>TikTok</h3><small>الفيديوهات القصيرة</small></div></div><span class="status">غير مرتبط</span></div>
+<p class="platform-desc">جهّز محتوى TikTok ونظّم العناوين والأوصاف والوسوم.</p>
+<div class="metrics"><div class="metric"><small>المشاهدات</small><strong>—</strong></div><div class="metric"><small>الإعجابات</small><strong>—</strong></div></div>
+<div class="card-actions"><button class="btn" data-open="tiktok">فتح اللوحة</button><button class="btn primary" data-require="TikTok">متطلبات الربط</button></div>
+</article>
+<article class="card">
+<div class="platform-head"><div class="platform-brand"><div class="platform-logo">▶</div><div><h3>YouTube</h3><small>القنوات والفيديوهات</small></div></div><span class="status">غير مرتبط</span></div>
+<p class="platform-desc">جهّز عناوين الفيديوهات والأوصاف والكلمات المفتاحية.</p>
+<div class="metrics"><div class="metric"><small>المشاهدات</small><strong>—</strong></div><div class="metric"><small>المشتركون</small><strong>—</strong></div></div>
+<div class="card-actions"><button class="btn" data-open="youtube">فتح اللوحة</button><button class="btn primary" data-require="YouTube">متطلبات الربط</button></div>
+</article>
+<article class="card">
+<div class="platform-head"><div class="platform-brand"><div class="platform-logo">◎</div><div><h3>Instagram</h3><small>الصور وReels</small></div></div><span class="status">غير مرتبط</span></div>
+<p class="platform-desc">حضّر وصف منشورات Instagram والوسوم الخاصة بمحتواك.</p>
+<div class="metrics"><div class="metric"><small>الوصول</small><strong>—</strong></div><div class="metric"><small>التفاعلات</small><strong>—</strong></div></div>
+<div class="card-actions"><button class="btn" data-open="instagram">فتح اللوحة</button><button class="btn primary" data-require="Instagram">متطلبات الربط</button></div>
+</article>
+</div>
+<div class="section-head"><h2>أحدث المسودات</h2><button class="btn small" data-open-page="drafts">عرض الكل</button></div>
+<div class="panel"><div id="recentDrafts" class="draft-list"><div class="empty"><b>📝</b>لا توجد مسودات محفوظة.</div></div></div>
 </section>
 
-<div class="grid">
-<main class="stack">
-
-<section class="card">
-<h3 data-t="upload">١. ارفع الفيديو</h3>
-<div class="upload">
-<div>
-<div style="font-size:34px">⇧</div>
-<b data-t="choose">اختر فيديو من جهازك</b>
-<p class="hint" data-t="formats">MP4 أو MOV · ملف واحد</p>
-<input id="file" type="file" accept="video/mp4,video/quicktime,video/webm">
+<!-- إنشاء منشور -->
+<section class="page" id="page-composer">
+<div class="content-grid">
+<div class="panel">
+<h3>إنشاء وتجهيز منشور</h3>
+<form id="composerForm">
+<div class="field">
+<label for="videoFile">ملف الفيديو</label>
+<label class="upload" for="videoFile"><span style="font-size:28px">☁️</span><b>اضغط لاختيار فيديو</b><small>سيتم حفظ الفيديو محلياً مع المسودة في هذا المتصفح.</small></label>
+<input id="videoFile" type="file" accept="video/*" class="hidden">
+<video id="videoPreview" class="video-preview" controls playsinline></video>
+<div id="fileRow" class="file-row hidden"><span id="fileName"></span><button class="btn danger small" id="removeVideo" type="button">إزالة الفيديو</button></div>
+</div>
+<div class="field"><label for="postTitle">عنوان المنشور</label><input id="postTitle" maxlength="150" placeholder="اكتب عنواناً جذاباً"></div>
+<div class="field"><label for="postDescription">الوصف</label><textarea id="postDescription" maxlength="5000" placeholder="اكتب وصف الفيديو هنا..."></textarea></div>
+<div class="field"><label for="postTags">الهاشتاغات والوسوم</label><input id="postTags" maxlength="500" placeholder="#NexPost #Video"></div>
+<div class="field"><label>المنصات المستهدفة</label><div class="checks">
+<label class="check-pill"><input type="checkbox" value="TikTok"> ♪ TikTok</label>
+<label class="check-pill"><input type="checkbox" value="YouTube"> ▶ YouTube</label>
+<label class="check-pill"><input type="checkbox" value="Instagram"> ◎ Instagram</label>
+</div></div>
+<div class="msg" id="composerMessage"></div>
+<button class="btn primary" id="saveDraftBtn" type="button">حفظ المسودة</button>
+<button class="btn" id="checkReadyBtn" type="button">فحص المنشور</button>
+<button class="btn" id="clearBtn" type="button">مسح الحقول</button>
+</form>
+</div>
+<div class="panel">
+<h3>معاينة المنشور</h3>
+<div class="preview" id="postPreview"><span style="color:var(--muted);font-size:12px">ستظهر المعاينة هنا أثناء الكتابة.</span></div>
+<div class="notice blue">حفظ المسودة لا ينشر الفيديو. النشر المباشر يحتاج إعداد OAuth وواجهات API الرسمية.</div>
+<div class="msg" id="readinessMessage"></div>
 </div>
 </div>
-<video id="preview" class="preview hidden" controls playsinline></video>
-<p id="fileInfo" class="hint"></p>
 </section>
 
-<section class="card">
-<h3 data-t="platforms">٢. اختر منصات النشر</h3>
-<div class="platforms">
-<button type="button" class="btn platform active" data-p="youtube"><span class="picon">▶</span><span><b>YouTube</b><small>Video</small></span></button>
-<button type="button" class="btn platform active" data-p="instagram"><span class="picon">◎</span><span><b>Instagram</b><small>Reels</small></span></button>
-<button type="button" class="btn platform active" data-p="tiktok"><span class="picon">♪</span><span><b>TikTok</b><small>Short video</small></span></button>
-</div>
+<!-- المسودات -->
+<section class="page" id="page-drafts">
+<div class="welcome"><h2>مسوداتك</h2><p>افتح المسودات لتعديلها أو انسخ نصها أو احذفها.</p></div>
+<div class="panel"><div class="section-head" style="margin-top:0"><h2>كل المسودات</h2><small id="draftSubtitle">0 مسودة</small></div><div id="allDrafts" class="draft-list"><div class="empty"><b>📝</b>لا توجد مسودات.</div></div></div>
+<div class="notice blue">المسودات محفوظة على هذا المتصفح والجهاز فقط، ولا تتم مزامنتها بين الأجهزة.</div>
 </section>
 
-<section class="card">
-<h3 data-t="content">٣. جهّز محتوى الفيديو</h3>
-<p class="hint" data-t="aiHint">اكتب وصفك أو أنشئ مسودة أولية. التحليل التلقائي بالذكاء الاصطناعي يحتاج إلى خدمة AI مرتبطة بالخادم.</p>
-<div class="fields">
-<input class="field" id="title" placeholder="عنوان الفيديو">
-<textarea class="field" id="desc" placeholder="اكتب وصف الفيديو"></textarea>
-<input class="field" id="tags" placeholder="#هاشتاغات">
+<!-- صفحات المنصات -->
+<section class="page" id="page-tiktok">
+<div class="welcome"><h2>♪ لوحة TikTok</h2><p>إدارة وتجهيز محتوى TikTok.</p></div>
+<div class="stats"><div class="stat"><div class="stat-icon">▶</div><h3>—</h3><p>المشاهدات</p></div><div class="stat"><div class="stat-icon">♡</div><h3>—</h3><p>الإعجابات</p></div><div class="stat"><div class="stat-icon">▤</div><h3>—</h3><p>المنشورات</p></div><div class="stat"><div class="stat-icon">♧</div><h3>—</h3><p>المتابعون</p></div></div>
+<div class="panel" style="margin-top:15px"><h3>حالة الاتصال</h3><p style="font-size:12px;color:var(--muted);line-height:1.9">الحساب غير مرتبط. يلزم إنشاء تطبيق مطوّر في TikTok وإعداد OAuth وصلاحيات API المناسبة ومراجعة المنصة عند الحاجة.</p><button class="btn primary" data-require="TikTok">متطلبات الربط</button><button class="btn" data-create-for="TikTok">تجهيز مسودة لـ TikTok</button></div>
+</section>
+<section class="page" id="page-youtube">
+<div class="welcome"><h2>▶ لوحة YouTube</h2><p>إدارة وتجهيز محتوى قناتك.</p></div>
+<div class="stats"><div class="stat"><div class="stat-icon">▶</div><h3>—</h3><p>المشاهدات</p></div><div class="stat"><div class="stat-icon">♡</div><h3>—</h3><p>الإعجابات</p></div><div class="stat"><div class="stat-icon">▤</div><h3>—</h3><p>الفيديوهات</p></div><div class="stat"><div class="stat-icon">♧</div><h3>—</h3><p>المشتركون</p></div></div>
+<div class="panel" style="margin-top:15px"><h3>حالة الاتصال</h3><p style="font-size:12px;color:var(--muted);line-height:1.9">تسجيل الدخول إلى NexPost عبر Google لا يربط قناة YouTube تلقائياً. يلزم OAuth منفصل بنطاقات YouTube المناسبة وخادم آمن.</p><button class="btn primary" data-require="YouTube">متطلبات الربط</button><button class="btn" data-create-for="YouTube">تجهيز مسودة لـ YouTube</button></div>
+</section>
+<section class="page" id="page-instagram">
+<div class="welcome"><h2>◎ لوحة Instagram</h2><p>إدارة وتجهيز محتوى Instagram وReels.</p></div>
+<div class="stats"><div class="stat"><div class="stat-icon">◉</div><h3>—</h3><p>الوصول</p></div><div class="stat"><div class="stat-icon">♡</div><h3>—</h3><p>الإعجابات</p></div><div class="stat"><div class="stat-icon">▤</div><h3>—</h3><p>المنشورات</p></div><div class="stat"><div class="stat-icon">♧</div><h3>—</h3><p>المتابعون</p></div></div>
+<div class="panel" style="margin-top:15px"><h3>حالة الاتصال</h3><p style="font-size:12px;color:var(--muted);line-height:1.9">يلزم إعداد تطبيق Meta وصلاحيات Instagram API وحساب مؤهل وخادم آمن لحفظ الرموز.</p><button class="btn primary" data-require="Instagram">متطلبات الربط</button><button class="btn" data-create-for="Instagram">تجهيز مسودة لـ Instagram</button></div>
+</section>
+
+<!-- إعدادات الحساب -->
+<section class="page" id="page-account">
+<div class="panel" style="max-width:720px">
+<h3>إعدادات الحساب</h3>
+<div class="account-row"><span>البريد الإلكتروني</span><strong id="accountEmail">—</strong></div>
+<div class="account-row"><span>معرّف المستخدم</span><strong id="accountId">—</strong></div>
+<div class="section-head"><h2>تغيير كلمة المرور</h2></div>
+<form id="changePasswordForm">
+<div class="field"><label for="accountPassword">كلمة المرور الجديدة</label><input id="accountPassword" type="password" minlength="8" required></div>
+<div class="field"><label for="accountPassword2">تأكيد كلمة المرور</label><input id="accountPassword2" type="password" minlength="8" required></div>
+<div class="msg" id="passwordMessage"></div>
+<button class="btn primary" id="changePasswordBtn" type="submit">حفظ كلمة المرور</button>
+</form>
+<div class="notice blue">لا تضع مفاتيح الخدمة السرية داخل ملفات الموقع العامة.</div>
+<div class="section-head"><h2>الجلسة</h2></div>
+<button class="btn" id="checkSessionBtn">التحقق من الجلسة</button>
+<button class="btn danger" id="accountLogout">تسجيل الخروج</button>
 </div>
-<div class="actions">
-<button type="button" class="btn" id="draft" data-t="draft">إنشاء مسودة أولية</button>
-<button type="button" class="btn primary" id="prepare" data-t="prepare">تحضير المنشورات</button>
-</div>
-<div class="notice" data-t="publishNotice">هذه النسخة تجهّز الواجهة والمسودات فقط. النشر الحقيقي يتطلب موافقات API وربطاً آمناً لكل منصة.</div>
 </section>
 </main>
-
-<aside class="stack">
-<section class="card">
-<h3 data-t="account">حساب NexPost</h3>
-<p class="hint" data-t="accountHint">سجّل الدخول لحفظ حسابك. لا تدخل كلمات مرور منصات التواصل هنا.</p>
-<div class="actions">
-<button type="button" class="btn primary" id="google">المتابعة باستخدام Google</button>
-<button type="button" class="btn" id="email" onclick="document.getElementById('modal').classList.remove('hidden')">الدخول بالبريد</button>
-<button type="button" class="btn hidden" id="logout">تسجيل الخروج</button>
-</div>
-<div class="notice" data-t="keyNotice">ضع Supabase Publishable Key في إعدادات الملف لتفعيل تسجيل الدخول. لا تضع Secret Key هنا.</div>
-</section>
-
-<section class="card">
-<h3 data-t="connect">ربط حسابات التواصل</h3>
-<div class="connectrow"><b>▶ YouTube</b><span class="status" data-t="unlinked">غير مربوط</span></div>
-<div class="connectrow"><b>◎ Instagram</b><span class="status" data-t="unlinked">غير مربوط</span></div>
-<div class="connectrow"><b>♪ TikTok</b><span class="status" data-t="unlinked">غير مربوط</span></div>
-<p class="hint" data-t="oauthHint">يحتاج الربط الفعلي إلى OAuth وموافقات التطبيقات وخدمات خادم آمنة.</p>
-</section>
-
-<section class="card">
-<h3 data-t="overview">ملخص الأداء</h3>
-<div class="stats">
-<div class="stat"><span data-t="views">المشاهدات</span><strong>—</strong></div>
-<div class="stat"><span data-t="likes">الإعجابات</span><strong>—</strong></div>
-<div class="stat"><span data-t="comments">التعليقات</span><strong>—</strong></div>
-</div>
-<p class="hint" data-t="metricsHint">تظهر الأرقام بعد ربط الحسابات واسترجاع بيانات التحليلات.</p>
-</section>
-</aside>
 </div>
 
-<section class="card" style="margin-top:16px">
-<h3 data-t="dashboards">لوحة منفصلة لكل منصة</h3>
-<div class="dashgrid">
-<div class="dash">
-<b>▶ YouTube</b><p class="hint" data-t="waiting">بانتظار الربط</p>
-<div class="stats">
-<div class="stat"><span data-t="views">المشاهدات</span><strong>—</strong></div>
-<div class="stat"><span data-t="likes">الإعجابات</span><strong>—</strong></div>
-<div class="stat"><span data-t="comments">التعليقات</span><strong>—</strong></div>
+<div class="dialog-back" id="dialogBack">
+<div class="dialog">
+<h3 id="dialogTitle">NexPost</h3>
+<p id="dialogText"></p>
+<div class="dialog-actions" id="dialogActions"></div>
 </div>
 </div>
-<div class="dash">
-<b>◎ Instagram</b><p class="hint" data-t="waiting">بانتظار الربط</p>
-<div class="stats">
-<div class="stat"><span data-t="views">المشاهدات</span><strong>—</strong></div>
-<div class="stat"><span data-t="likes">الإعجابات</span><strong>—</strong></div>
-<div class="stat"><span data-t="comments">التعليقات</span><strong>—</strong></div>
-</div>
-</div>
-<div class="dash">
-<b>♪ TikTok</b><p class="hint" data-t="waiting">بانتظار الربط</p>
-<div class="stats">
-<div class="stat"><span data-t="views">المشاهدات</span><strong>—</strong></div>
-<div class="stat"><span data-t="likes">الإعجابات</span><strong>—</strong></div>
-<div class="stat"><span data-t="comments">التعليقات</span><strong>—</strong></div>
-</div>
-</div>
-</div>
-</section>
+<div class="toast" id="toast" role="status"></div>
 
-<footer>NexPost · Social Publishing Studio</footer>
-</div>
-
-<div class="modalback hidden" id="modal">
-<div class="modal">
-<h3 data-t="emailTitle">الدخول بالبريد</h3>
-<input class="field" id="mail" type="email" placeholder="Email">
-<input class="field" id="pass" type="password" placeholder="Password">
-<div class="actions">
-<button type="button" class="btn primary" id="signin">دخول</button>
-<button type="button" class="btn" id="signup">إنشاء حساب</button>
-<button type="button" class="btn" id="close">إلغاء</button>
-</div>
-</div>
-</div>
-
-<div class="toast hidden" id="toast"></div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const SUPABASE_URL="https://ubjxouxdngrgldbjltkd.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY="PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE";
+'use strict';
 
-const dict={
-ar:{
-hero:"انشر فيديوك من مكان واحد",intro:"ارفع فيديو واحداً، جهّز محتوى مناسباً لكل منصة، وتابع أداء كل حساب من لوحة واحدة.",
-upload:"١. ارفع الفيديو",choose:"اختر فيديو من جهازك",formats:"MP4 أو MOV · ملف واحد",
-platforms:"٢. اختر منصات النشر",content:"٣. جهّز محتوى الفيديو",
-aiHint:"اكتب وصفك أو أنشئ مسودة أولية. التحليل التلقائي بالذكاء الاصطناعي يحتاج إلى خدمة AI مرتبطة بالخادم.",
-draft:"إنشاء مسودة أولية",prepare:"تحضير المنشورات",
-publishNotice:"هذه النسخة تجهّز الواجهة والمسودات فقط. النشر الحقيقي يتطلب موافقات API وربطاً آمناً لكل منصة.",
-account:"حساب NexPost",accountHint:"سجّل الدخول لحفظ حسابك. لا تدخل كلمات مرور منصات التواصل هنا.",
-google:"المتابعة باستخدام Google",emailLogin:"الدخول بالبريد",logout:"تسجيل الخروج",
-keyNotice:"ضع Supabase Publishable Key في إعدادات الملف لتفعيل تسجيل الدخول. لا تضع Secret Key هنا.",
-connect:"ربط حسابات التواصل",unlinked:"غير مربوط",
-oauthHint:"يحتاج الربط الفعلي إلى OAuth وموافقات التطبيقات وخدمات خادم آمنة.",
-overview:"ملخص الأداء",views:"المشاهدات",likes:"الإعجابات",comments:"التعليقات",
-metricsHint:"تظهر الأرقام بعد ربط الحسابات واسترجاع بيانات التحليلات.",
-dashboards:"لوحة منفصلة لكل منصة",waiting:"بانتظار الربط",
-emailTitle:"الدخول بالبريد",signin:"دخول",signup:"إنشاء حساب",cancel:"إلغاء",
-needKey:"أضف Supabase Publishable Key أولاً.",needVideo:"اختر فيديو أولاً.",
-needPlatform:"اختر منصة واحدة على الأقل.",draftDone:"تم إنشاء مسودة أولية؛ راجعها وعدّلها.",
-prepared:"تم تحضير المسودة للمنصات المختارة. النشر الحقيقي غير مفعّل بعد.",
-authError:"خطأ في تسجيل الدخول: ",signedIn:"تم تسجيل الدخول",
-signedOut:"غير مسجل الدخول",signedOutMsg:"تم تسجيل الخروج",
-checkMail:"تحقق من بريدك لتأكيد الحساب."
-},
-en:{
-hero:"Publish your video from one place",intro:"Upload one video, prepare content for each platform, and track every account in one dashboard.",
-upload:"1. Upload video",choose:"Choose a video from your device",formats:"MP4 or MOV · one file",
-platforms:"2. Choose platforms",content:"3. Prepare video content",
-aiHint:"Write your own copy or create a starter draft. Automatic AI analysis needs an AI service connected on the backend.",
-draft:"Create starter draft",prepare:"Prepare posts",
-publishNotice:"This version prepares the interface and drafts only. Live publishing requires API approvals and secure integrations.",
-account:"NexPost account",accountHint:"Sign in to save your account. Never enter social platform passwords here.",
-google:"Continue with Google",emailLogin:"Sign in with email",logout:"Sign out",
-keyNotice:"Add your Supabase Publishable Key in this file. Never put a Secret Key here.",
-connect:"Connect social accounts",unlinked:"Not connected",
-oauthHint:"Live connections require OAuth, app approvals, and secure server functions.",
-overview:"Performance overview",views:"Views",likes:"Likes",comments:"Comments",
-metricsHint:"Metrics appear after accounts are connected and analytics are fetched.",
-dashboards:"Separate platform dashboards",waiting:"Awaiting connection",
-emailTitle:"Email sign in",signin:"Sign in",signup:"Create account",cancel:"Cancel",
-needKey:"Add the Supabase Publishable Key first.",needVideo:"Choose a video first.",
-needPlatform:"Select at least one platform.",draftDone:"Starter draft created. Review and edit it.",
-prepared:"Draft prepared. Live publishing is not enabled.",
-authError:"Sign-in error: ",signedIn:"Signed in",
-signedOut:"Not signed in",signedOutMsg:"Signed out",
-checkMail:"Check your email to confirm your account."
-},
-fr:{
-hero:"Publiez votre vidéo depuis un seul endroit",intro:"Importez une vidéo, préparez le contenu pour chaque plateforme et suivez chaque compte depuis un tableau de bord.",
-upload:"1. Importer une vidéo",choose:"Choisissez une vidéo sur votre appareil",formats:"MP4 ou MOV · un fichier",
-platforms:"2. Choisir les plateformes",content:"3. Préparer le contenu",
-aiHint:"Rédigez votre texte ou créez un brouillon. L’analyse IA nécessite un service connecté côté serveur.",
-draft:"Créer un brouillon",prepare:"Préparer les publications",
-publishNotice:"Cette version prépare l’interface et les brouillons uniquement. La publication réelle exige des autorisations API et des connexions sécurisées.",
-account:"Compte NexPost",accountHint:"Connectez-vous pour enregistrer votre compte. Ne saisissez jamais vos mots de passe sociaux ici.",
-google:"Continuer avec Google",emailLogin:"Connexion par e-mail",logout:"Déconnexion",
-keyNotice:"Ajoutez la clé Publishable Supabase dans ce fichier. Ne mettez aucune clé secrète ici.",
-connect:"Lier les comptes sociaux",unlinked:"Non connecté",
-oauthHint:"La connexion réelle exige OAuth, des validations et des fonctions serveur sécurisées.",
-overview:"Aperçu des performances",views:"Vues",likes:"J’aime",comments:"Commentaires",
-metricsHint:"Les statistiques apparaîtront après la liaison des comptes.",
-dashboards:"Tableaux de bord par plateforme",waiting:"En attente de liaison",
-emailTitle:"Connexion par e-mail",signin:"Connexion",signup:"Créer un compte",cancel:"Annuler",
-needKey:"Ajoutez d’abord la clé Publishable Supabase.",needVideo:"Choisissez d’abord une vidéo.",
-needPlatform:"Sélectionnez au moins une plateforme.",draftDone:"Brouillon créé. Vérifiez-le et modifiez-le.",
-prepared:"Brouillon préparé. La publication réelle n’est pas encore activée.",
-authError:"Erreur de connexion : ",signedIn:"Connecté",
-signedOut:"Non connecté",signedOutMsg:"Déconnecté",
-checkMail:"Vérifiez votre e-mail pour confirmer le compte."
-},
-de:{
-hero:"Veröffentliche dein Video an einem Ort",intro:"Lade ein Video hoch, bereite Inhalte für jede Plattform vor und verfolge alle Konten in einem Dashboard.",
-upload:"1. Video hochladen",choose:"Video auf deinem Gerät auswählen",formats:"MP4 oder MOV · eine Datei",
-platforms:"2. Plattformen auswählen",content:"3. Videoinhalt vorbereiten",
-aiHint:"Schreibe deinen Text oder erstelle einen Entwurf. Die automatische KI-Analyse benötigt einen serverseitig verbundenen KI-Dienst.",
-draft:"Entwurf erstellen",prepare:"Beiträge vorbereiten",
-publishNotice:"Diese Version erstellt nur Oberfläche und Entwürfe. Echtes Veröffentlichen benötigt API-Freigaben und sichere Integrationen.",
-account:"NexPost-Konto",accountHint:"Melde dich an, um dein Konto zu speichern. Gib hier niemals Social-Media-Passwörter ein.",
-google:"Weiter mit Google",emailLogin:"Mit E-Mail anmelden",logout:"Abmelden",
-keyNotice:"Füge den Supabase Publishable Key in diese Datei ein. Niemals einen Secret Key hier einfügen.",
-connect:"Social-Konten verbinden",unlinked:"Nicht verbunden",
-oauthHint:"Echte Verbindungen benötigen OAuth, App-Freigaben und sichere Serverfunktionen.",
-overview:"Leistungsübersicht",views:"Aufrufe",likes:"Gefällt mir",comments:"Kommentare",
-metricsHint:"Kennzahlen erscheinen nach Kontoverknüpfung und Abruf der Analysedaten.",
-dashboards:"Dashboards je Plattform",waiting:"Verbindung ausstehend",
-emailTitle:"E-Mail-Anmeldung",signin:"Anmelden",signup:"Konto erstellen",cancel:"Abbrechen",
-needKey:"Füge zuerst den Supabase Publishable Key ein.",needVideo:"Bitte zuerst ein Video auswählen.",
-needPlatform:"Wähle mindestens eine Plattform.",draftDone:"Entwurf erstellt. Bitte prüfen und bearbeiten.",
-prepared:"Entwurf vorbereitet. Live-Veröffentlichung ist noch nicht aktiviert.",
-authError:"Anmeldefehler: ",signedIn:"Angemeldet",
-signedOut:"Nicht angemeldet",signedOutMsg:"Abgemeldet",
-checkMail:"Prüfe deine E-Mail zur Bestätigung."
+/* أدخل Supabase Publishable Key هنا. لا تضع service_role أو Secret Key. */
+const SUPABASE_URL='https://ubjxouxdngrgldbjltkd.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE';
+const REDIRECT_URL=location.origin+location.pathname;
+const DB_NAME='nexpost_drafts_database';
+const STORE='drafts';
+
+const $=id=>document.getElementById(id);
+let client=null,user=null,authMode='login',dbPromise=null;
+let selectedVideo=null,videoName='',videoURL=null,editingId=null,removeOldVideo=false;
+let recoveryMode=false;
+
+function toast(message){
+ const node=$('toast');node.textContent=message;node.classList.add('show');
+ clearTimeout(toast.timer);toast.timer=setTimeout(()=>node.classList.remove('show'),3500);
 }
+function message(id,text,type='info'){
+ const node=$(id);node.textContent=text;
+ node.className='msg show '+type;
+}
+function clearMessage(id){
+ const node=$(id);node.textContent='';node.className='msg';
+}
+function busy(button,on,label){
+ if(on){button.dataset.label=button.innerHTML;button.disabled=true;button.innerHTML='<span class="spinner"></span> جارٍ التنفيذ...';}
+ else{button.disabled=false;button.innerHTML=label||button.dataset.label||'متابعة';}
+}
+function friendly(error){
+ const m=String(error?.message||'').toLowerCase();
+ if(m.includes('invalid login credentials'))return 'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
+ if(m.includes('email not confirmed'))return 'يجب تأكيد بريدك الإلكتروني قبل تسجيل الدخول.';
+ if(m.includes('already registered'))return 'هذا البريد مسجل مسبقاً. جرّب تسجيل الدخول.';
+ if(m.includes('password should be at least'))return 'كلمة المرور قصيرة جداً.';
+ if(m.includes('rate limit'))return 'طلبات كثيرة خلال وقت قصير. انتظر قليلاً ثم حاول.';
+ if(m.includes('network'))return 'تحقق من اتصال الإنترنت ثم حاول مجدداً.';
+ return error?.message||'حدث خطأ غير متوقع. حاول مرة أخرى.';
+}
+function requireClient(){
+ if(!window.supabase)throw Error('تعذّر تحميل خدمة Supabase. تحقق من الإنترنت.');
+ if(SUPABASE_PUBLISHABLE_KEY.includes('PASTE_YOUR_'))throw Error('أضف Supabase Publishable Key في أعلى الكود أولاً.');
+ if(!client)throw Error('خدمة الحسابات لم تجهز بعد. أعد تحميل الصفحة.');
+ return client;
+}
+function authPanel(name){
+ ['normalAuth','forgotPanel','recoveryPanel'].forEach(id=>$(id).classList.toggle('hidden',id!==name));
+}
+function authTab(mode){
+ authMode=mode;clearMessage('authMessage');
+ $('loginTab').classList.toggle('active',mode==='login');
+ $('signupTab').classList.toggle('active',mode==='signup');
+ $('authSubmit').textContent=mode==='login'?'تسجيل الدخول':'إنشاء حساب';
+ $('confirmField').classList.toggle('hidden',mode!=='signup');
+ $('forgotLink').classList.toggle('hidden',mode!=='login');
+ $('password').autocomplete=mode==='login'?'current-password':'new-password';
+}
+$('loginTab').onclick=()=>authTab('login');
+$('signupTab').onclick=()=>authTab('signup');
+$('forgotLink').onclick=()=>{
+ $('forgotEmail').value=$('email').value.trim();
+ clearMessage('forgotMessage');authPanel('forgotPanel');
 };
-
-let lang="ar";
-let chosen=new Set(["youtube","instagram","tiktok"]);
-let videoURL=null;
-let client=null;
-
-const tr=k=>dict[lang][k]||dict.en[k]||k;
-
-function toast(s){
-const e=document.getElementById("toast");
-e.textContent=s;
-e.classList.remove("hidden");
-setTimeout(()=>e.classList.add("hidden"),3200);
-}
-
-function translate(){
-document.documentElement.lang=lang;
-document.documentElement.dir=lang==="ar"?"rtl":"ltr";
-document.querySelectorAll("[data-t]").forEach(e=>{
-if(dict[lang][e.dataset.t])e.textContent=tr(e.dataset.t);
-});
-}
-
-document.getElementById("lang").onchange=e=>{
-lang=e.target.value;
-translate();
-};
-
-document.querySelectorAll("[data-p]").forEach(b=>{
-b.onclick=()=>{
-const p=b.dataset.p;
-if(chosen.has(p)){
-chosen.delete(p);
-b.classList.remove("active");
-}else{
-chosen.add(p);
-b.classList.add("active");
-}
-};
+$('backLogin').onclick=()=>authPanel('normalAuth');
+document.querySelectorAll('[data-toggle]').forEach(button=>button.onclick=()=>{
+ const input=$(button.dataset.toggle);input.type=input.type==='password'?'text':'password';
 });
 
-document.getElementById("file").onchange=e=>{
-const f=e.target.files[0];
-if(!f)return;
-if(videoURL)URL.revokeObjectURL(videoURL);
-videoURL=URL.createObjectURL(f);
-const v=document.getElementById("preview");
-v.src=videoURL;
-v.classList.remove("hidden");
-document.getElementById("fileInfo").textContent=f.name+" · "+(f.size/1048576).toFixed(1)+" MB";
+function showApp(sessionUser){
+ if(!sessionUser)return;
+ user=sessionUser;
+ $('authScreen').classList.add('hidden');
+ $('app').style.display='block';
+ $('sidebarEmail').textContent=user.email||'حساب NexPost';
+ $('accountEmail').textContent=user.email||'—';
+ $('accountId').textContent=user.id||'—';
+ refreshDrafts().catch(error=>{console.error(error);toast('تعذّر تحميل المسودات.');});
+}
+function showAuth(){
+ user=null;$('app').style.display='none';
+ $('authScreen').classList.remove('hidden');
+ authPanel('normalAuth');authTab('login');
+}
+async function init(){
+ if(!window.supabase){
+ message('authMessage','تعذّر تحميل مكتبة Supabase. تحقق من الإنترنت وأعد تحميل الصفحة.','error');return;
+ }
+ if(SUPABASE_PUBLISHABLE_KEY.includes('PASTE_YOUR_')){
+ message('authMessage','ضع Supabase Publishable Key في السطر المحدد أعلى الكود لتفعيل الحسابات.','error');return;
+ }
+ try{
+ client=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+ client.auth.onAuthStateChange((event,session)=>{
+  if(event==='PASSWORD_RECOVERY'){
+   recoveryMode=true;showAuth();authPanel('recoveryPanel');clearMessage('recoveryMessage');
+  }else if(event==='SIGNED_IN'&&session?.user&&!recoveryMode){
+   showApp(session.user);
+  }else if(event==='SIGNED_OUT'){
+   recoveryMode=false;showAuth();
+  }else if(event==='USER_UPDATED'&&session?.user){
+   user=session.user;$('accountEmail').textContent=user.email||'—';
+  }
+ });
+ const {data,error}=await client.auth.getSession();
+ if(error)throw error;
+ if(data.session?.user)showApp(data.session.user);else showAuth();
+ }catch(error){message('authMessage',friendly(error),'error');}
+}
+
+$('authForm').addEventListener('submit',async event=>{
+ event.preventDefault();clearMessage('authMessage');
+ let api;try{api=requireClient();}catch(e){message('authMessage',e.message,'error');return;}
+ const email=$('email').value.trim(),password=$('password').value,confirm=$('confirmPassword').value;
+ if(!/^\S+@\S+\.\S+$/.test(email)){message('authMessage','اكتب بريداً إلكترونياً صحيحاً.','error');return;}
+ if(password.length<8){message('authMessage','كلمة المرور يجب أن تكون 8 أحرف على الأقل.','error');return;}
+ if(authMode==='signup'&&password!==confirm){message('authMessage','كلمتا المرور غير متطابقتين.','error');return;}
+ const button=$('authSubmit');busy(button,true);
+ try{
+  if(authMode==='login'){
+   const {data,error}=await api.auth.signInWithPassword({email,password});
+   if(error)throw error;
+   if(data.user)showApp(data.user);
+   toast('تم تسجيل الدخول بنجاح.');
+  }else{
+   const {data,error}=await api.auth.signUp({email,password,options:{emailRedirectTo:REDIRECT_URL}});
+   if(error)throw error;
+   if(data.session?.user)showApp(data.session.user);
+   else message('authMessage','تم إنشاء الحساب. افتح رسالة التأكيد في بريدك الإلكتروني ثم ارجع لتسجيل الدخول.','success');
+  }
+ }catch(error){
+  message('authMessage',friendly(error),'error');
+  $('authCard').classList.remove('shake');void $('authCard').offsetWidth;$('authCard').classList.add('shake');
+ }finally{busy(button,false,authMode==='login'?'تسجيل الدخول':'إنشاء حساب');}
+});
+
+$('googleBtn').onclick=async()=>{
+ let api;try{api=requireClient();}catch(e){message('authMessage',e.message,'error');return;}
+ const button=$('googleBtn');busy(button,true);
+ try{
+  const {error}=await api.auth.signInWithOAuth({provider:'google',options:{redirectTo:REDIRECT_URL}});
+  if(error)throw error;
+ }catch(error){message('authMessage',friendly(error),'error');busy(button,false,'🌐 المتابعة باستخدام Google');}
 };
 
-document.getElementById("draft").onclick=()=>{
-const f=document.getElementById("file").files[0];
-if(!f)return toast(tr("needVideo"));
-const base=f.name.replace(/\.[^.]+$/,"").replace(/[_-]/g," ");
-if(!document.getElementById("title").value)document.getElementById("title").value=base;
-if(!document.getElementById("desc").value){
-document.getElementById("desc").value=lang==="ar"?"شاهدوا هذا الفيديو وشاركوني آراءكم!":lang==="fr"?"Découvrez cette vidéo et partagez votre avis !":lang==="de"?"Sieh dir dieses Video an und teile deine Meinung!":"Watch this video and share your thoughts!";
-}
-if(!document.getElementById("tags").value)document.getElementById("tags").value="#NexPost #Video";
-toast(tr("draftDone"));
+$('forgotForm').onsubmit=async event=>{
+ event.preventDefault();clearMessage('forgotMessage');
+ let api;try{api=requireClient();}catch(e){message('forgotMessage',e.message,'error');return;}
+ const email=$('forgotEmail').value.trim();
+ if(!/^\S+@\S+\.\S+$/.test(email)){message('forgotMessage','اكتب بريداً إلكترونياً صحيحاً.','error');return;}
+ const button=$('forgotSubmit');busy(button,true);
+ try{
+  const {error}=await api.auth.resetPasswordForEmail(email,{redirectTo:REDIRECT_URL});
+  if(error)throw error;
+  message('forgotMessage','إذا كان البريد مسجلاً، ستصلك رسالة استعادة. افتح الرابط من هذا المتصفح، ثم أدخل كلمة المرور الجديدة. افحص مجلد الرسائل غير المرغوب فيها أيضاً.','success');
+ }catch(error){message('forgotMessage',friendly(error),'error');}
+ finally{busy(button,false,'إرسال رابط الاستعادة');}
 };
 
-document.getElementById("prepare").onclick=()=>{
-if(!document.getElementById("file").files[0])return toast(tr("needVideo"));
-if(!chosen.size)return toast(tr("needPlatform"));
-toast(tr("prepared"));
+$('recoveryForm').onsubmit=async event=>{
+ event.preventDefault();clearMessage('recoveryMessage');
+ let api;try{api=requireClient();}catch(e){message('recoveryMessage',e.message,'error');return;}
+ const password=$('newPassword').value,confirm=$('newPasswordConfirm').value;
+ if(password.length<8){message('recoveryMessage','استخدم 8 أحرف على الأقل.','error');return;}
+ if(password!==confirm){message('recoveryMessage','كلمتا المرور غير متطابقتين.','error');return;}
+ const button=$('recoverySubmit');busy(button,true);
+ try{
+  const {data,error:sessionError}=await api.auth.getSession();
+  if(sessionError)throw sessionError;
+  if(!data.session)throw Error('رابط الاستعادة غير صالح أو انتهت صلاحيته. اطلب رابطاً جديداً.');
+  const {error}=await api.auth.updateUser({password});
+  if(error)throw error;
+  recoveryMode=false;
+  message('recoveryMessage','تم تغيير كلمة المرور بنجاح. يمكنك الآن الدخول باستخدام كلمة المرور الجديدة.','success');
+  $('recoveryForm').reset();
+  const done=document.createElement('button');done.className='btn primary block';done.type='button';done.textContent='العودة إلى لوحة التحكم';
+  done.onclick=()=>showApp(data.session.user);
+  $('recoveryPanel').appendChild(done);
+ }catch(error){message('recoveryMessage',friendly(error),'error');}
+ finally{busy(button,false,'حفظ كلمة المرور الجديدة');}
 };
 
-function openLogin(){
-document.getElementById("modal").classList.remove("hidden");
+async function logout(){
+ if(!client){showAuth();return;}
+ try{const {error}=await client.auth.signOut();if(error)throw error;showAuth();toast('تم تسجيل الخروج.');}
+ catch(error){toast('تعذّر تسجيل الخروج: '+friendly(error));}
 }
-function closeLogin(){
-document.getElementById("modal").classList.add("hidden");
+$('logoutBtn').onclick=logout;
+$('accountLogout').onclick=logout;
+
+/* التنقل */
+const pageNames={
+ dashboard:['لوحة التحكم','نظرة عامة على محتواك'],
+ composer:['إنشاء منشور','جهّز محتواك واحفظه كمسودة'],
+ drafts:['المسودات','افتح المسودات أو عدّلها أو احذفها'],
+ tiktok:['TikTok','لوحة تجهيز محتوى TikTok'],
+ youtube:['YouTube','لوحة تجهيز محتوى YouTube'],
+ instagram:['Instagram','لوحة تجهيز محتوى Instagram'],
+ account:['إعدادات الحساب','إدارة بيانات الدخول والجلسة']
+};
+function openPage(name){
+ if(!pageNames[name])return;
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.page===name));
+ $('page-'+name).classList.add('active');
+ $('pageTitle').textContent=pageNames[name][0];
+ $('pageSubtitle').textContent=pageNames[name][1];
+ $('sidebar').classList.remove('open');
+ window.scrollTo({top:0,behavior:'smooth'});
+ if(name==='drafts'||name==='dashboard')refreshDrafts().catch(console.error);
 }
-document.getElementById("email").onclick=openLogin;
-document.getElementById("authBtn").onclick=openLogin;
-document.getElementById("close").
+document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>openPage(b.dataset.page));
+document.querySelectorAll('[data-open-page]').forEach(b=>b.onclick=()=>openPage(b.dataset.openPage));
+document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openPage(b.dataset.open));
+$('newPostBtn').onclick=()=>{resetComposer();openPage('composer');};
+$('menuBtn').onclick=()=>$('sidebar').classList.toggle('open');
+
+/* نافذة معلومات المنصات */
+const requirements={
+ TikTok:'ربط TikTok غير مفعّل بعد. يلزم إنشاء تطبيق في بوابة مطوري TikTok، إعداد OAuth وصلاحيات API المطلوبة، ثم اجتياز مراجعة المنصة عند اشتراطها. لا تدخل كلمة مرور TikTok في NexPost. يتطلب حفظ رموز الوصول خادماً آمناً.',
+ YouTube:'ربط قناة YouTube منفصل عن تسجيل الدخول إلى NexPost عبر Google. يلزم OAuth مستقل بنطاقات YouTube المناسبة، إعداد Google Cloud، وخادم آمن لحفظ رموز الوصول. لا تضع Client Secret داخل ملف HTML.',
+ Instagram:'يلزم إعداد تطبيق Meta، وحساب Instagram مؤهل وفق متطلبات API، وصلاحيات Instagram المناسبة، وOAuth وخادم آمن لحفظ رموز الوصول. لا تطلب NexPost كلمة مرور Instagram.'
+};
+function dialog(title,text,action){
+ $('dialogTitle').textContent=title;$('dialogText').textContent=text;
+ $('dialogActions').innerHTML='';
+ const close=document.createElement('button');close.className='btn';close.textContent='إغلاق';close.onclick=closeDialog;$('dialogActions').appendChild(close);
+ if(action){const b=document.createElement('button');b.className='btn primary';b.textContent='تجهيز مسودة';b.onclick=()=>{closeDialog();resetComposer();const c=document.querySelector('.check-pill input[value="'+action+'"]');if(c)c.checked=true;openPage('composer');preview();};$('dialogActions').appendChild(b);}
+ $('dialogBack').classList.add('open');
+}
+function closeDialog(){$('dialogBack').classList.remove('open');}
+$('dialogBack').addEventListener('click',e=>{if(e.target===$('dialogBack'))closeDialog();});
+document.querySelectorAll('[data-require]').forEach(b=>b.onclick=()=>dialog('متطلبات ربط '+b.dataset.require,requirements[b.dataset.require],b.dataset.require));
+document.querySelectorAll('[data-create-for]').forEach(b=>b.onclick=()=>{resetComposer();const c=document.querySelector('.check-pill input[value="'+b.dataset.createFor+'"]');if(c)c.checked=true;openPage('composer');preview();toast('تم اختيار المنصة للمسودة.');});
+
+/* قاعدة بيانات محلية للمسودات والفيديوهات */
+function openDB(){
+ if(dbPromise)return dbPromise;
+ dbPromise=new Promise((resolve,reject)=>{
+  if(!('indexedDB' in window)){reject(Error('المتصفح لا يدعم التخزين المحلي.'));return;}
+  const request=indexedDB.open('nexpost_local_storage_v1',1);
+  request.onupgradeneeded=()=>{if(!request.result.objectStoreNames.contains('drafts'))request.result.createObjectStore('drafts',{keyPath:'id'});};
+  request.onsuccess=()=>resolve(request.result);
+  request.onerror=()=>reject(request.error||Error('تعذّر فتح التخزين.'));
+ });
+ return dbPromise;
+}
+async function dbAction(mode,fn){
+ const db=await openDB();
+ return new Promise((resolve,reject)=>{
+  const tx=db.transaction('drafts',mode),store=tx.objectStore('drafts');
+  let req;try{req=fn(store);}catch(e){reject(e);return;}
+  if(req){req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);}
+  else{tx.oncomplete=()=>resolve(true);tx.onerror=()=>reject(tx.error);}
+ });
+}
+const getAll=()=>dbAction('readonly',s=>s.getAll());
+const getOne=id=>dbAction('readonly',s=>s.get(id));
+const saveOne=x=>dbAction('readwrite',s=>s.put(x));
+const deleteOne=id=>dbAction('readwrite',s=>s.delete(id));
+const makeId=()=>crypto.randomUUID?crypto.randomUUID():'draft-'+Date.now()+'-'+Math.random().toString(16).slice(2);
+const platforms=()=>[...document.querySelectorAll('.check-pill input:checked')].map(x=>x.value);
+
+function setVideo(blob,name){
+ selectedVideo=blob||null;videoName=name||'';
+ if(videoURL)URL.revokeObjectURL(videoURL);
+ videoURL=null;
+ if(selectedVideo){
+  videoURL=URL.createObjectURL(selectedVideo);
+  $('videoPreview').src=videoURL;$('videoPreview').style.display='block';
+  $('fileRow').classList.remove('hidden');$('fileName').textContent=videoName;
+ }else{
+  $('videoPreview').pause();$('videoPreview').removeAttribute('src');$('videoPreview').load();
+  $('videoPreview').style.display='none';$('fileRow').classList.add('hidden');$('fileName').textContent='';
+ }
+ preview();
+}
+$('videoFile').onchange=e=>{
+ const file=e.target.files?.[0];if(!file)return;
+ if(!file.type.startsWith('video/')){toast('اختر ملف فيديو صحيحاً.');e.target.value='';return;}
+ selectedVideo=file;removeOldVideo=false;setVideo(file,file.name);
+};
+$('removeVideo').onclick=()=>{removeOldVideo=true;setVideo(null,'');$('videoFile').value='';toast('تمت إزالة الفيديو من المسودة الحالية.');};
+
+function preview(){
+ const box=$('postPreview');box.innerHTML='';
+ const title=$('postTitle').value.trim(),desc=$('postDescription').value.trim(),tags=$('postTags').value.trim();
+ if(!title&&!desc&&!tags&&!videoName){box.textContent='ستظهر المعاينة هنا أثناء الكتابة.';return;}
+ const h=document.createElement('strong');h.textContent=title||'بدون عنوان';
+ const p=document.createElement('p');p.textContent=desc||'لا يوجد وصف بعد.';
+ const t=document.createElement('p');t.className='tags';t.textContent=tags;
+ const pl=document.createElement('p');pl.textContent='المنصات: '+(platforms().join('، ')||'لم يتم اختيار منصة');
+ const v=document.createElement('p');v.textContent=videoName?'الفيديو: '+videoName:'لا يوجد فيديو مرفق';
+ box.append(h,p,t,pl,v);
+}
+['postTitle','postDescription','postTags'].forEach(id=>$(id).addEventListener('input',preview));
+document.querySelectorAll('.check-pill input').forEach(x=>x.addEventListener('change',preview));
+
+function resetComposer(){
+ $('composerForm').reset();setVideo(null,'');editingId=null;removeOldVideo=false;
+ $('composerMessage').className='msg';$('readinessMessage').className='msg';preview();
+}
+$('clearBtn').onclick=()=>{
+ if(!confirm('هل تريد مسح الحقول الحالية؟ لن تتأثر المسودات المحفوظة.'))return;
+ resetComposer();toast('تم مسح الحقول.');
+};
+$('saveDraftBtn').onclick=async()=>{
+ const title=$('postTitle').value.trim(),description=$('postDescription').value.trim(),tags=$('postTags').value.trim(),chosen=platforms();
+ if(!title&&!description&&!selectedVideo){message('composerMessage','أضف عنواناً أو وصفاً أو فيديو قبل الحفظ.','error');return;}
+ const button=$('saveDraftBtn');busy(button,true);
+ try{
+  const old=editingId?await getOne(editingId):null;
+  const existing=old&&old.ownerId===user?.id?old:null;
+  const record={
+   id:existing?.id||makeId(),ownerId:user?.id||'local',
+   title,description,tags,platforms:chosen,
+   videoBlob:selectedVideo||(!removeOldVideo?existing?.videoBlob:null)||null,
+   videoName:selectedVideo?videoName:(!removeOldVideo?(existing?.videoName||''):''),
+   createdAt:existing?.createdAt||new Date().toISOString(),
+   updatedAt:new Date().toISOString()
+  };
+  await saveOne(record);editingId=record.id;removeOldVideo=false;
+  message('composerMessage','تم حفظ المسودة والفيديو في هذا المتصفح.','success');
+  await refreshDrafts();
+ }catch(error){console.error(error);message('composerMessage','تعذّر الحفظ. تحقق من مساحة التخزين في جهازك.','error');}
+ finally{busy(button,false,'حفظ المسودة');}
+};
+$('checkReadyBtn').onclick=()=>{
+ const problems=[];
+ if(!$('postTitle').value.trim())problems.push('أضف عنواناً.');
+ if(!$('postDescription').value.trim())problems.push('أضف وصفاً.');
+ if(!platforms().length)problems.push('اختر منصة واحدة على الأقل.');
+ if(!selectedVideo)problems.push('اختر ملف فيديو.');
+ const text=problems.length?'توجد نقاط تحتاج إلى مراجعة:\n• '+problems.join('\n• '):'الفحص المحلي مكتمل: الحقول الأساسية موجودة. هذا لا يضمن قبول المنصة ولا يعني أن النشر مفعّل.';
+ message('readinessMessage',text,problems.length?'info':'success');
+};
+
+function dateText(date){try{return new Date(date).toLocaleString('ar');}catch{return 'تاريخ غير متاح';}}
+function draftElement(record){
+ const row=document.createElement('article');row.className='draft';
+ const icon=document.createElement('div');icon.className='draft-icon';icon.textContent=record.videoBlob?'▶':'📝';
+ const info=document.createElement('div');info.className='draft-info';
+ const title=document.createElement('strong');title.textContent=record.title||'مسودة بدون عنوان';
+ const sub=document.createElement('small');sub.textContent=dateText(record.updatedAt||record.createdAt)+' · '+(record.platforms?.join('، ')||'لم تحدد منصة')+(record.videoName?' · فيديو مرفق':'');
+ info.append(title,sub);
+ const actions=document.createElement('div');actions.className='draft-actions';
+ const open=document.createElement('button');open.className='btn small';open.textContent='فتح وتعديل';open.onclick=()=>loadDraft(record.id);
+ const copy=document.createElement('button');copy.className='btn small';copy.textContent='نسخ النص';copy.onclick=()=>copyText(record);
+ const del=document.createElement('button');del.className='btn danger small';del.textContent='حذف';del.onclick=()=>removeDraft(record.id);
+ actions.append(open,copy,del);row.append(icon,info,actions);return row;
+}
+async function refreshDrafts(){
+ const records=await getAll();
+ const mine=records.filter(x=>x.ownerId===(user?.id||'local')).sort((a,b)=>new Date(b.updatedAt)-new Date(a.updatedAt));
+ $('draftCount').textContent=mine.length;$('draftSubtitle').textContent=mine.length+' مسودة';
+ for(const id of ['recentDrafts','allDrafts']){
+  const node=$(id);node.innerHTML='';
+  const list=id==='recentDrafts'?mine.slice(0,4):mine;
+  if(!list.length){const empty=document.createElement('div');empty.className='empty';empty.innerHTML='<b>📝</b>لا توجد مسودات محفوظة.';node.append(empty);}
+  else list.forEach(x=>node.append(draftElement(x)));
+ }
+}
+async function loadDraft(id){
+ try{
+  const record=await getOne(id);
+  if(!record||record.ownerId!==(user?.id||'local')){toast('لم يتم العثور على المسودة.');return;}
+  editingId=record.id;removeOldVideo=false;
+  $('postTitle').value=record.title||'';
+  $('postDescription').value=record.description||'';
+  $('postTags').value=record.tags||'';
+  document.querySelectorAll('.check-pill input').forEach(x=>x.checked=(record.platforms||[]).includes(x.value));
+  $('videoFile').value='';setVideo(record.videoBlob||null,record.videoName||'');
+  preview();openPage('composer');toast('تم فتح المسودة للتعديل.');
+ }catch(error){toast('تعذّر فتح المسودة.');}
+}
+async function removeDraft(id){
+ if(!confirm('هل تريد حذف هذه المسودة والفيديو المرفق بها؟'))return;
+ try{
+  const record=await getOne(id);
+  if(!record||record.ownerId!==(user?.id||'local')){toast('المسودة غير متاحة لهذا الحساب.');return;}
+  await deleteOne(id);if(editingId===id)resetComposer();await refreshDrafts();toast('تم حذف المسودة.');
+ }catch(error){toast('تعذّر حذف المسودة.');}
+}
+async function copyText(record){
+ const text=[record.title,record.description,record.tags].filter(Boolean).join('\n\n');
+ if(!text){toast('لا يوجد نص لنسخه.');return;}
+ try{
+  if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(text);
+  else{const area=document.createElement('textarea');area.value=text;document.body.append(area);area.select();if(!document.execCommand('copy'))throw Error();area.remove();}
+  toast('تم نسخ نص المسودة.');
+ }catch{toast('تعذّر النسخ التلقائي. افتح المسودة وانسخ النص يدوياً.');}
+}
+
+async function checkSession(){
+ try{
+  const api=requireClient();const {data,error}=await api.auth.getSession();if(error)throw error;
+  if(data.session?.user){showApp(data.session.user);toast('جلسة الحساب نشطة.');}
+  else{showAuth();toast('لا توجد جلسة دخول نشطة.');}
+ }catch(error){toast(friendly(error));}
+}
+$('refreshBtn').onclick=checkSession;
+$('checkSessionBtn').onclick=checkSession;
+
+$('changePasswordForm').onsubmit=async event=>{
+ event.preventDefault();
+ const password=$('accountPassword').value,confirm=$('accountPassword2').value;
+ if(password.length<8){message('passwordMessage','استخدم 8 أحرف على الأقل.','error');return;}
+ if(password!==confirm){message('passwordMessage','كلمتا المرور غير متطابقتين.','error');return;}
+ const button=$('changePasswordBtn');busy(button,true);
+ try{
+  const api=requireClient();const {error}=await api.auth.updateUser({password});if(error)throw error;
+  $('changePasswordForm').reset();message('passwordMessage','تم تغيير كلمة المرور بنجاح.','success');
+ }catch(error){message('passwordMessage',friendly(error),'error');}
+ finally{busy(button,false,'حفظ كلمة المرور');}
+};
+
+/* بدء التطبيق */
+openDB().catch(error=>{console.error(error);toast('تحذير: تخزين المسودات غير متاح في هذا المتصفح.');});
+init();
+</script>
+</body>
+</html>
